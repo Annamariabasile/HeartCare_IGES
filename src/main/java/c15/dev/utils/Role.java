@@ -19,4 +19,12 @@ public enum Role {
      * ruolo admin.
      */
     ADMIN,
+    /**
+     * ruolo Caregiver.
+     */
+    CAREGIVER,
+    /**
+     * ruolo Caregiver non registrato (dati di paziente).
+     */
+    CAREGIVER_NON_REGISTRATO
 }

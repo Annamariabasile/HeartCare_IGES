@@ -59,6 +59,17 @@ public class Paziente extends UtenteRegistrato {
     private Medico medico;
 
     /**
+     * Questo campo indica il Caregiver che viene assegnato al paziente.
+     */
+    @JsonIgnore
+    @JsonBackReference("paziente-caregiver")
+    @ManyToOne
+    @JoinColumn(name = "id_caregiver",
+            referencedColumnName = "id",
+            nullable = true)
+    private Caregiver caregiver;
+
+    /**
      * Questo campo indica l'insieme delle note che un paziente riceve.
      */
     @JsonIgnore
