@@ -1,6 +1,7 @@
 package c15.dev.model.dao;
 
-import c15.dev.model.entity.UtenteRegistrato;
+import c15.dev.model.entity.Caregiver;
+import c15.dev.utils.Role;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -10,5 +11,6 @@ public interface CaregiverDAO extends UtenteRegistratoDAO {
      * @param email
      * @return utente trovato nel db.
      */
-    UtenteRegistrato findByEmail(String email);
+    Caregiver findByEmail(String email);
+
 }

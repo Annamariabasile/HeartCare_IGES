@@ -1,11 +1,9 @@
 package c15.dev.gestioneUtente.service;
 
-import c15.dev.model.entity.UtenteRegistrato;
-import c15.dev.model.entity.Paziente;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.DispositivoMedico;
-import c15.dev.model.entity.Indirizzo;
+import c15.dev.model.entity.*;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -24,10 +22,9 @@ public interface GestioneUtenteService {
      * @param cognomeCaregiver nome del caregiver.
      * @return true o false.
      */
-    boolean assegnaCaregiver(Long idPaziente,
-                          String emailCaregiver,
-                          String nomeCaregiver,
-                          String cognomeCaregiver);
+
+    //modifiche al metodo
+    boolean assegnaCaregiver(Long idPaziente, Long idCaregiver);
 
     /**
      * Firma del metodo rimuoviMedico.
@@ -213,4 +210,19 @@ public interface GestioneUtenteService {
      * @return String.
      */
     String encryptPassword(String nuovaPassword);
+
+    /**
+     * Metodi nuovi
+     *
+     */
+
+    Caregiver findCaregiverById(Long id);
+
+    List<UtenteRegistrato> getTuttiCaregiver();
+
+    List<UtenteRegistrato> getTuttiCaregiverNonRegistrati();
+
+    Long findCaregiverByIdPaziente(Long idPaziente);
+
+    boolean isCaregiver(Long idUtente);
 }

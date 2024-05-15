@@ -170,12 +170,14 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     @Override
     public AuthenticationResponse login(final AuthenticationRequest request)
                                                             throws Exception {
+        System.out.println(request.getEmail() + request.getPassword());
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         ));
 
+        System.out.println("\n\n\nSONO QUI\n\n\n");
         var user = pazienteDAO.findByEmail(request.getEmail());
         Medico medico = null;
         if (user == null) {

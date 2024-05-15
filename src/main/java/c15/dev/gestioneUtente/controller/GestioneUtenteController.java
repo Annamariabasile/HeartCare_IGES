@@ -65,6 +65,8 @@ public class GestioneUtenteController {
      * @param nomeCaregiver nome del caregiver.
      * @param cognomeCaregiver cognome del caregiver.
      */
+    /*
+
     @RequestMapping(value = "/assegnaCaregiver", method = RequestMethod.POST)
     public void assegnaCaregiver(@RequestParam final Long idPaziente,
                                  @RequestParam final String emailCaregiver,
@@ -77,6 +79,7 @@ public class GestioneUtenteController {
                     cognomeCaregiver);
         }
     }
+     */
 
     /**
      * pre: questo metodo può essere chiamato solo da un admin.
@@ -205,9 +208,9 @@ public class GestioneUtenteController {
             map.put("cognome", paziente.getCognome());
             map.put("email", paziente.getEmail());
             map.put("nTelefono", paziente.getNumeroTelefono());
-            map.put("emailCaregiver", paziente.getEmailCaregiver());
-            map.put("nomeCaregiver", paziente.getNomeCaregiver());
-            map.put("cognomeCaregiver", paziente.getCognomeCaregiver());
+            //map.put("emailCaregiver", paziente.getEmailCaregiver());
+            //map.put("nomeCaregiver", paziente.getNomeCaregiver());
+            //map.put("cognomeCaregiver", paziente.getCognomeCaregiver());
         } else if (service.isMedico(idUtente) || service.isAdmin(idUtente)) {
             Medico medico = service.findMedicoById(idUtente);
             map.put("nome", medico.getNome());
@@ -239,9 +242,9 @@ public class GestioneUtenteController {
             map.put("via", indirizzo.getVia());
             map.put("numeroCivico", indirizzo.getNCivico());
             map.put("cap", indirizzo.getCap());
-            map.put("emailCaregiver", paziente.getEmailCaregiver());
-            map.put("nomeCaregiver", paziente.getNomeCaregiver());
-            map.put("cognomeCaregiver", paziente.getCognomeCaregiver());
+            //map.put("emailCaregiver", paziente.getEmailCaregiver());
+            //map.put("nomeCaregiver", paziente.getNomeCaregiver());
+            //map.put("cognomeCaregiver", paziente.getCognomeCaregiver());
         } else if (service.isMedico(idUtente)) {
             Medico medico = service.findMedicoById(idUtente);
             Indirizzo indirizzo = medico.getIndirizzoResidenza();
@@ -523,12 +526,9 @@ public class GestioneUtenteController {
     modificaCaregiver(@RequestBody final HashMap<String, String> caregiver) {
         Long idUtente = Long.valueOf(caregiver.get("id"));
         Paziente p = service.findPazienteById(idUtente);
-        String nome = caregiver.get("nomeCaregiver");
-        String email = caregiver.get("emailCaregiver");
-        String cognome = caregiver.get("cognomeCaregiver");
-        if (service.assegnaCaregiver(idUtente, email, nome, cognome)) {
+        if (service.assegnaCaregiver(idUtente,8L)) {
             gestioneComunicazioneService.invioEmail("Sei diventato caregiver",
-                    p.getEmailCaregiver());
+                    p.getCaregiver().getEmail());
 
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -559,6 +559,22 @@ public class GestioneUtenteController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @PostMapping("/getCaregiver/{id}")
+    public ResponseEntity<Object> getCaregiverByPaziente(
+            @PathVariable("id") final long idPaziente) {
+
+        HashMap<String, Object> map = new HashMap<>();
+        long idCaregiver = service.findCaregiverByIdPaziente(idPaziente);
+        var caregiver = service.findCaregiverById(idCaregiver);
+
+        map.put("nome", caregiver.getNome());
+        map.put("cognome", caregiver.getCognome());
+        map.put("email", caregiver.getEmail());
+        map.put("telefono", caregiver.getNumeroTelefono());
+        map.put("ruolo", caregiver.getRuolo());
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 
 }
 

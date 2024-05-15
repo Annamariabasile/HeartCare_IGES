@@ -1,6 +1,7 @@
 package c15.dev.model.dao;
 
 import c15.dev.model.entity.UtenteRegistrato;
+import c15.dev.utils.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

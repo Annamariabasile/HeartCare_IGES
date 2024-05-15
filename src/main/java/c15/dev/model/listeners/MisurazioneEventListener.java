@@ -59,9 +59,9 @@ public class MisurazioneEventListener implements PostInsertEventListener {
                 comunicazioneService.
                         sendNotifica("Misurazione Sballata",
                         misurazione.getPaziente().getId());
-                if (misurazione.getPaziente().getEmailCaregiver() != null) {
+                if (misurazione.getPaziente().getCaregiver().getEmail() != null) {
                     comunicazioneService.invioEmail(str,
-                            misurazione.getPaziente().getEmailCaregiver());
+                            misurazione.getPaziente().getCaregiver().getEmail());
                 }
             }
         }

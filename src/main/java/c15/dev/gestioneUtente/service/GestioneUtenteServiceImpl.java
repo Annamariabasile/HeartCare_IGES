@@ -1,16 +1,7 @@
 package c15.dev.gestioneUtente.service;
 
-import c15.dev.model.dao.PazienteDAO;
-import c15.dev.model.dao.MedicoDAO;
-import c15.dev.model.dao.DispositivoMedicoDAO;
-import c15.dev.model.dao.AdminDAO;
-import c15.dev.model.dao.IndirizzoDAO;
-import c15.dev.model.dao.UtenteRegistratoDAO;
-import c15.dev.model.entity.Paziente;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.UtenteRegistrato;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.DispositivoMedico;
+import c15.dev.model.dao.*;
+import c15.dev.model.entity.*;
 
 import c15.dev.utils.JwtService;
 
@@ -77,6 +68,9 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
     @Autowired
     private IndirizzoDAO indirizzo;
 
+    @Autowired
+    private CaregiverDAO caregiver;
+
     /**
      * Provvede ad accedere al db per l'utente.
      */
@@ -97,53 +91,21 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
      * pre L'utente deve essere un pazienete.
      * Metodo che assegna un caregiver a un paziente.
      * @param idPaziente del paziente a cui si vuole assegnare il caregiver.
-     * @param emailCaregiver email del caregiver.
-     * @param nomeCaregiver nome del caregiver.
-     * @param cognomeCaregiver nome del caregiver.
      * post Viene assegnato il caregiver.
      */
     @Override
-    public boolean assegnaCaregiver(final Long idPaziente,
-                                    final String emailCaregiver,
-                                    final String nomeCaregiver,
-                                    final String cognomeCaregiver) {
-
-        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pat = Pattern.compile(regexPattern);
-
-        Matcher match = pat.matcher(emailCaregiver);
-        boolean matches = match.matches();
-
-
+    public boolean assegnaCaregiver(final Long idPaziente, final Long idCaregiver) {
         Optional<UtenteRegistrato> pz =  paziente.findById(idPaziente);
         if (pz.isEmpty()) {
             return false;
         }
-
-        if (emailCaregiver.equals("")) {
-            return false;
-        }
-
-        if (!matches) {
-            return false;
-        }
-
-        if (nomeCaregiver.equals("")) {
-            return false;
-        }
-
-        if (cognomeCaregiver.equals("")) {
-            return false;
-        }
-
         Paziente tmp = (Paziente) pz.get();
-        tmp.setEmailCaregiver(emailCaregiver);
-        tmp.setNomeCaregiver(nomeCaregiver);
-        tmp.setCognomeCaregiver(cognomeCaregiver);
+        tmp.setCaregiver((Caregiver) caregiver.findById(idCaregiver).get());
         paziente.save(tmp);
         return true;
     }
+
+
 
     /**
      * pre idUtente != null,
@@ -421,6 +383,8 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
             return result;
         } else if ((result = admin.findByEmail(email)) != null) {
             return result;
+        } else if ((result = caregiver.findByEmail(email)) != null) {
+            return result;
         }
         return null;
     }
@@ -557,6 +521,45 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
     @Override
     public String encryptPassword(final String nuovaPassword) {
         return pwdEncoder.encode(nuovaPassword);
+    }
+
+    @Override
+    public Caregiver findCaregiverById(Long id) {
+        Optional<UtenteRegistrato> car = caregiver.findById(id);
+        return (Caregiver) car.orElse(null);
+
+    }
+
+    @Override
+    public List<UtenteRegistrato> getTuttiCaregiver() {
+        return caregiver.findAll();
+    }
+
+    @Override
+    public List<UtenteRegistrato> getTuttiCaregiverNonRegistrati() {
+        Optional<List<UtenteRegistrato>> utentiNonRegistrati = Optional.of(utente.findAll()
+                .stream()
+                .filter(utente -> utente.getRuolo().equals(Role.CAREGIVER_NON_REGISTRATO))
+                .toList());
+        return utentiNonRegistrati.get();
+    }
+
+    @Override
+    public Long findCaregiverByIdPaziente(Long idPaziente) {
+        Caregiver c = findPazienteById(idPaziente).getCaregiver();
+        return c.getId();
+    }
+
+    @Override
+    public boolean isCaregiver(Long idUtente) {
+        Optional<UtenteRegistrato> u = caregiver.findById(idUtente);
+
+        if (u.isEmpty()) {
+            return false;
+        } else if (u.get().getClass().getSimpleName().equals("Caregiver")) {
+            return true;
+        }
+        return false;
     }
 
     /**
