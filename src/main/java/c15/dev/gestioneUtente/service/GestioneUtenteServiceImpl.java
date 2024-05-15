@@ -5,6 +5,7 @@ import c15.dev.model.entity.*;
 
 import c15.dev.utils.JwtService;
 
+import c15.dev.utils.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

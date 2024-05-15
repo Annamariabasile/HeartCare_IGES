@@ -30,22 +30,6 @@ import java.util.Objects;
 @Getter
 @SuperBuilder
 public class Paziente extends UtenteRegistrato {
-    /**
-     * Questo campo rappresenta il nome del caregiver.
-     */
-    //@NotEmpty
-    private String nomeCaregiver;
-
-    /**
-     * Questo campo rappresenta il cognome del caregiver.
-     */
-    //@NotEmpty
-    private String cognomeCaregiver;
-    /**
-     * Questo campo rappresenta l'email del caregiver.
-     */
-    //@Email
-    private String emailCaregiver;
 
     /**
      * Questo campo indica il Medico che viene assegnato al paziente.
@@ -158,13 +142,7 @@ public class Paziente extends UtenteRegistrato {
         if (!(o instanceof Paziente paziente)) {
             return false;
         }
-        return Objects.equals(getNomeCaregiver(),
-                paziente.getNomeCaregiver())
-                && Objects.equals(getCognomeCaregiver(),
-                paziente.getCognomeCaregiver())
-                && Objects.equals(getEmailCaregiver(),
-                paziente.getEmailCaregiver())
-                && Objects.equals(getMedico(), paziente.getMedico())
+        return  Objects.equals(getMedico(), paziente.getMedico())
                 && Objects.equals(getNote(), paziente.getNote())
                 && Objects.equals(getDispositivoMedico(),
                 paziente.getDispositivoMedico())
@@ -179,9 +157,7 @@ public class Paziente extends UtenteRegistrato {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getNomeCaregiver(),
-                getCognomeCaregiver(),
-                getEmailCaregiver(),
+        return Objects.hash(
                 getMedico(),
                 getNote(),
                 getDispositivoMedico(),
