@@ -563,6 +563,18 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
         return false;
     }
 
+    @Override
+    public boolean isCaregiverNonRegistrato(Long idUtente) {
+        Optional<UtenteRegistrato> u = utente.findById(idUtente);
+
+        if (u.isEmpty()) {
+            return false;
+        } else if (u.get().getRuolo().equals(Role.CAREGIVER_NON_REGISTRATO)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Metodo che aggiorna un indirizzo.
      * @param ind indirizzo che si vuole aggiornare.

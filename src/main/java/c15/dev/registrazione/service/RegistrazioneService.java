@@ -1,9 +1,6 @@
 package c15.dev.registrazione.service;
 
-import c15.dev.model.entity.Admin;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.Paziente;
+import c15.dev.model.entity.*;
 import c15.dev.utils.AuthenticationRequest;
 import c15.dev.utils.AuthenticationResponse;
 
@@ -63,5 +60,8 @@ public interface RegistrazioneService {
      * @return response.
      */
     AuthenticationResponse registraAdmin(Admin admin)
+            throws Exception;
+
+    AuthenticationResponse registraCaregiver(Caregiver caregiver, Long idPaziente)
             throws Exception;
 }

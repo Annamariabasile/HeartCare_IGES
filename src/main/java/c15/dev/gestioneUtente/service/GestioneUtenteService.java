@@ -225,4 +225,6 @@ public interface GestioneUtenteService {
     Long findCaregiverByIdPaziente(Long idPaziente);
 
     boolean isCaregiver(Long idUtente);
+
+    boolean isCaregiverNonRegistrato(Long idUtente);
 }

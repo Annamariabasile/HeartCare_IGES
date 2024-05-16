@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/login", "/auth/registrazione",
+                        "/auth/registrazioneCaregiver",
                         "/auth/getByEmail",
                         "/auth/getByCodice", "/ws/**",
                         "/comunicazione/invioNota",

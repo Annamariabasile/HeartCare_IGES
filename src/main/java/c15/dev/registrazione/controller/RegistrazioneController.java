@@ -1,6 +1,7 @@
 package c15.dev.registrazione.controller;
 
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
+import c15.dev.model.entity.Caregiver;
 import c15.dev.model.entity.Indirizzo;
 import c15.dev.model.entity.Medico;
 import c15.dev.model.entity.Paziente;
@@ -57,10 +58,7 @@ public class RegistrazioneController {
      * @return response.
      */
     @PostMapping(value = "/registrazione")
-        public AuthenticationResponse
-            registrazione(@RequestBody @Valid final
-                          HashMap<String, String> paziente)
-                        throws Exception {
+        public AuthenticationResponse registrazione(@RequestBody @Valid final HashMap<String, String> paziente) throws Exception {
         System.out.println(paziente);
         String nome = paziente.get("nome");
         String cognome = paziente.get("cognome");
@@ -119,6 +117,30 @@ public class RegistrazioneController {
         registrazioneService.saveIndirizzo(ind);
         m.setIndirizzoResidenza(ind);
         return registrazioneService.registraMedico(m);
+    }
+
+    @PostMapping(value = "/registrazioneCaregiver")
+    public AuthenticationResponse registrazioneCaregiver(@RequestBody @Valid final HashMap<String, String> caregiver) throws Exception {
+        System.out.println("\n\n\nSONO QUI\n\n\n");
+        String nome = caregiver.get("nome");
+        String cognome = caregiver.get("cognome");
+        String password = caregiver.get("password");
+        String email = caregiver.get("email");
+        String numero =  caregiver.get("numeroTelefono");
+        String genere = caregiver.get("genere");
+        String codice = caregiver.get("codiceFiscale");
+        LocalDate data = LocalDate.parse(
+                caregiver.get("dataDiNascita"));
+        Caregiver c = new Caregiver(data, codice, numero, password, email,
+                nome, cognome, genere);
+
+        c.setIndirizzoResidenza(null);
+
+        Long idPaziente = Long.valueOf(caregiver.get("idPaziente"));
+
+        // TODO: nella richiesta inviare anche l'id del paziente a cui associare il caregiver
+        // TODO: effettuare associazione tra caregiver e paziente
+        return registrazioneService.registraCaregiver(c,idPaziente);
     }
 
     /**

@@ -1,23 +1,20 @@
 package c15.dev.registrazione.service;
 
-import c15.dev.model.dao.PazienteDAO;
-import c15.dev.model.dao.AdminDAO;
-import c15.dev.model.dao.IndirizzoDAO;
-import c15.dev.model.dao.MedicoDAO;
-import c15.dev.model.dao.UtenteRegistratoDAO;
-import c15.dev.model.entity.Admin;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.Paziente;
+import c15.dev.gestioneUtente.service.GestioneUtenteService;
+import c15.dev.model.dao.*;
+import c15.dev.model.entity.*;
 import c15.dev.utils.AuthenticationRequest;
 import c15.dev.utils.AuthenticationResponse;
 import c15.dev.utils.JwtService;
+import c15.dev.utils.Role;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 /**
@@ -49,6 +46,15 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
          */
     @Autowired
     private MedicoDAO medicoDAO;
+
+    /**
+     * Provvede alle operazioni del db legate al caregiver.
+     */
+    @Autowired
+    private CaregiverDAO caregiverDAO;
+
+    @Autowired
+    private GestioneUtenteService gestioneUtenteService;
 
     /**
      * Provvede alle operazioni legate al token di autenticazione.
@@ -221,5 +227,36 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     @Override
     public Paziente findBycodiceFiscale(final String codiceFiscale) {
         return pazienteDAO.findBycodiceFiscale(codiceFiscale);
+    }
+
+    @Override
+    public AuthenticationResponse registraCaregiver(Caregiver caregiver, Long idPaziente) throws Exception {
+        Long idCaregiver = 0L;
+        caregiver.setPassword(pwdEncoder.encode(caregiver.getPassword()));
+        // controllo se esiste già nel db il caregiver con l'email associata
+        Caregiver caregiverNonRegistrato = caregiverDAO.findByEmail(caregiver.getEmail());
+        // se esiste, è un caregiver_non_registrato oppure esiste già qualcuno con quella email.
+        if(caregiverNonRegistrato != null){
+            if(caregiverNonRegistrato.getRuolo() == Role.CAREGIVER_NON_REGISTRATO){
+                // aggiorno le informazioni del caregiver non registrato e poi le salvo.
+                caregiverNonRegistrato.setPassword(caregiver.getPassword());
+                caregiverNonRegistrato.setNumeroTelefono(caregiver.getNumeroTelefono());
+                caregiverNonRegistrato.setCodiceFiscale(caregiver.getCodiceFiscale());
+                caregiverNonRegistrato.setDataDiNascita(caregiver.getDataDiNascita());
+                caregiverNonRegistrato.setGenere(caregiver.getGenere());
+                caregiverNonRegistrato.setRuolo(Role.CAREGIVER);
+                idCaregiver = caregiverDAO.save(caregiverNonRegistrato).getId();
+            }
+        }else {
+            idCaregiver = caregiverDAO.save(caregiver).getId();
+        }
+
+        //il caregiver si registra quando qualcuno gli ha inviato la richiesta
+        gestioneUtenteService.assegnaCaregiver(idPaziente, caregiverDAO.findById(idCaregiver).get().getId());
+
+        var jwtToken = jwtService.generateToken(caregiver);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 }

@@ -2,10 +2,7 @@ package c15.dev.gestioneUtente.controller;
 
 import c15.dev.gestioneComunicazione.service.GestioneComunicazioneService;
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.Paziente;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.UtenteRegistrato;
+import c15.dev.model.entity.*;
 import c15.dev.model.entity.enumeration.StatoVisita;
 import c15.dev.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,25 +58,14 @@ public class GestioneUtenteController {
      * pre: idPaziente non deve essere null.
      * Metodo per assegnare un caregiver.
      * @param idPaziente id del paziente.
-     * @param emailCaregiver email del caregiver.
-     * @param nomeCaregiver nome del caregiver.
-     * @param cognomeCaregiver cognome del caregiver.
      */
-    /*
 
     @RequestMapping(value = "/assegnaCaregiver", method = RequestMethod.POST)
-    public void assegnaCaregiver(@RequestParam final Long idPaziente,
-                                 @RequestParam final String emailCaregiver,
-                                 @RequestParam final String nomeCaregiver,
-                                 @RequestParam final String cognomeCaregiver) {
-        if (service.isPaziente(idPaziente)) {
-            service.assegnaCaregiver(idPaziente,
-                    emailCaregiver,
-                    nomeCaregiver,
-                    cognomeCaregiver);
+    public void assegnaCaregiver(@RequestParam final Long idPaziente, @RequestParam final Long idCaregiver) {
+        if (service.isPaziente(idPaziente) && (service.isCaregiver(idCaregiver) || service.isCaregiverNonRegistrato(idCaregiver))) {
+            service.assegnaCaregiver(idPaziente, idCaregiver);
         }
     }
-     */
 
     /**
      * pre: questo metodo può essere chiamato solo da un admin.
@@ -303,7 +289,13 @@ public class GestioneUtenteController {
             map.put("nome", med.getNome());
             map.put("cognome", med.getCognome());
             map.put("sesso", med.getGenere());
-        }
+        } //else if (service.isCaregiverNonRegistrato(idUtente)){
+            //TODO mostra pagina di aggiunta dati mancanti
+        //} else if (service.isCaregiver(idUtente)){
+            //Caregiver car = service.findCaregiverById(idUtente);
+            //map.put("pazientiTotali", car.getElencoPazienti().size());
+            //TODO sistemare visite e note divisi per pazienti
+        //}
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
@@ -526,7 +518,8 @@ public class GestioneUtenteController {
     modificaCaregiver(@RequestBody final HashMap<String, String> caregiver) {
         Long idUtente = Long.valueOf(caregiver.get("id"));
         Paziente p = service.findPazienteById(idUtente);
-        if (service.assegnaCaregiver(idUtente,8L)) {
+        Long idCaregiver = service.findCaregiverByIdPaziente(p.getId());
+        if (service.assegnaCaregiver(idUtente,idCaregiver)) {
             gestioneComunicazioneService.invioEmail("Sei diventato caregiver",
                     p.getCaregiver().getEmail());
 
