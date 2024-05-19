@@ -2,6 +2,7 @@ package c15.dev.gestioneComunicazione.service;
 
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
 import c15.dev.model.dao.NotaDAO;
+import c15.dev.model.dto.NotaCaregiverDTO;
 import c15.dev.model.dto.NotaDTO;
 import c15.dev.model.dto.NotificaDTO;
 import c15.dev.model.entity.Medico;
@@ -25,8 +26,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class GestioneComunicazioneServiceImpl
-        implements GestioneComunicazioneService {
+public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneService {
     /**
      * Oggetto per invio notifiche.
      */
@@ -86,8 +86,12 @@ public class GestioneComunicazioneServiceImpl
     @Override
     public void invioNota(final String messaggio,
                           final Long idDestinatario,
-                          final Long idMittente) {
-        if (utenteService.isMedico(idMittente)) {
+                          final Long idMittente,
+                          final Long idAutore) {
+
+
+        if (utenteService.isMedico(idAutore)) {
+
             Medico m =  utenteService.findMedicoById(idMittente);
             Paziente p = utenteService.findPazienteById(idDestinatario);
             Nota nota = new Nota(messaggio,
@@ -100,13 +104,14 @@ public class GestioneComunicazioneServiceImpl
             return;
         }
 
+
         Medico m = (Medico) utenteService.findMedicoById(idDestinatario);
         Paziente p = (Paziente) utenteService.findPazienteById(idMittente);
 
         Nota nota =
                 new Nota(messaggio,
                         LocalDate.now(),
-                        idMittente,
+                        idAutore,
                         StatoNota.NON_LETTA,
                         m,
                         p);
@@ -145,6 +150,20 @@ public class GestioneComunicazioneServiceImpl
                                 .findUtenteById(e.getAutore())
                                 .getCognome(),
                 e.getContenuto())).toList();
+
+        return dto;
+    }
+
+    @Override
+    public List<NotaCaregiverDTO> findNoteInviateByIdUtente(long id) {
+        List<Nota> note = notaDAO.findNoteInviateByIdUtente(id);
+        List<NotaCaregiverDTO> dto = note
+                .stream()
+                .map(e ->
+                        new NotaCaregiverDTO(utenteService.findUtenteById(e.getAutore()).getNome() + " " + utenteService.findUtenteById(e.getAutore()).getCognome(),
+                                e.getContenuto(),
+                                utenteService.findUtenteById(e.getMedico().getId()).getNome() + " " + utenteService.findUtenteById(e.getMedico().getId()).getCognome()
+                                )).toList();
 
         return dto;
     }

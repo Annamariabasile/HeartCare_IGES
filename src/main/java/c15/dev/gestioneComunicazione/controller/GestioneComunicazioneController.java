@@ -2,8 +2,11 @@ package c15.dev.gestioneComunicazione.controller;
 
 import c15.dev.gestioneComunicazione.service.GestioneComunicazioneService;
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
+import c15.dev.model.dto.NotaCaregiverDTO;
 import c15.dev.model.dto.NotaDTO;
+import c15.dev.model.entity.Caregiver;
 import c15.dev.model.entity.Nota;
+import c15.dev.model.entity.Paziente;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,7 +53,6 @@ public class GestioneComunicazioneController {
      * Metodo che inva una mail.
      */
     @PostMapping(path = "invioEmail")
-
     public void invioEmail() {
         String messaggio = "notifica di prova";
         service.invioEmail(messaggio, "leopoldo.todiscozte@gmail.com");
@@ -61,11 +64,11 @@ public class GestioneComunicazioneController {
      * @return ResponseEntity è la response che sarà fetchata dal frontend.
      */
     @PostMapping(path = "/invioNota")
-    public ResponseEntity<Object>
-    invioNota(@RequestBody final HashMap<String, String> nota) {
+    public ResponseEntity<Object> invioNota(@RequestBody final HashMap<String, String> nota, final HttpServletRequest request) {
         long idDestinatario = Long.parseLong(nota.get("idDestinatario"));
         long idMittente = Long.parseLong(nota.get("idMittente"));
-        service.invioNota(nota.get("nota"), idDestinatario, idMittente);
+        long idAutore = utenteService.findUtenteByEmail(request.getUserPrincipal().getName()).getId();
+        service.invioNota(nota.get("nota"), idDestinatario, idMittente, idAutore);
         List<Nota> note = service.findAllNote();
         return new ResponseEntity<>(note, HttpStatus.OK);
     }
@@ -76,8 +79,7 @@ public class GestioneComunicazioneController {
      * @return è la response che sarà fetchata dal frontend.
      */
     @PostMapping(path = ("/fetchTutteLeNote"))
-    public ResponseEntity<Object>
-    fetchTutteLeNote(@RequestBody final HashMap<String, Long> utente) {
+    public ResponseEntity<Object> fetchTutteLeNote(@RequestBody final HashMap<String, Long> utente) {
         Long id = utente.get("idMittente");
         return new ResponseEntity<>(service.findNoteByIdUtente(id),
                                     HttpStatus.OK);
@@ -91,8 +93,7 @@ public class GestioneComunicazioneController {
      */
 
     @PostMapping("/nuoveNote")
-    public ResponseEntity<Object> noteByUser(
-            final HttpServletRequest request) {
+    public ResponseEntity<Object> noteByUser(final HttpServletRequest request) {
         var email = request.getUserPrincipal().getName();
         if (utenteService.findUtenteByEmail(email) == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -113,10 +114,43 @@ public class GestioneComunicazioneController {
      * @return response è la response che sarà fetchata dal frontend.
      */
     @PostMapping(path = "/getMedico")
-    public ResponseEntity<Object>
-    fetchMedcioPerPaziente(@RequestBody final HashMap<String, Long> utente) {
+    public ResponseEntity<Object> fetchMedcioPerPaziente(@RequestBody final HashMap<String, Long> utente) {
         Long id = utente.get("idMittente");
         return  new ResponseEntity<>(utenteService.findMedicoByPaziente(id),
                                                              HttpStatus.OK);
     }
+
+    @PostMapping(path = "/getNoteCaregiver")
+    public ResponseEntity<Object> getNoteByCaregiver(final HttpServletRequest request) {
+        var email = request.getUserPrincipal().getName();
+        if (utenteService.findUtenteByEmail(email) == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        Caregiver caregiver = (Caregiver) utenteService.findUtenteByEmail(email);
+        List<Paziente> pazientiDelCaregiver = caregiver.getElencoPazienti();
+
+        List<NotaCaregiverDTO> noteDeiPazienti = new ArrayList<>();
+
+        pazientiDelCaregiver.forEach(paziente -> {
+                    noteDeiPazienti.addAll(
+                            // inserisco tutte le note che sono state inviata al paziente
+                            service.findNoteNonLetteByUser(paziente.getEmail()).stream()
+                                    .map(n -> NotaCaregiverDTO.builder()
+                                            .nomeMittente(n.getMedico().getNome() + " " + n.getMedico().getCognome())
+                                            .messaggio(n.getContenuto())
+                                            .nomeDestinatario(n.getPaziente().getNome() + " " + n.getPaziente().getCognome())
+                                            .build())
+                                    .toList()
+                    );
+                    noteDeiPazienti.addAll(
+                            // inserisco tutte le note che sono state inviata dal paziente
+                            service.findNoteInviateByIdUtente(paziente.getId())
+                    );
+                }
+        );
+        return new ResponseEntity<>(noteDeiPazienti, HttpStatus.OK);
+    }
+
+
+
 }

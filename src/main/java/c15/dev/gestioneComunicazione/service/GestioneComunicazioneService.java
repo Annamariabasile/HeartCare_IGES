@@ -1,5 +1,6 @@
 package c15.dev.gestioneComunicazione.service;
 
+import c15.dev.model.dto.NotaCaregiverDTO;
 import c15.dev.model.dto.NotaDTO;
 import c15.dev.model.entity.Nota;
 import java.util.List;
@@ -25,7 +26,8 @@ public interface GestioneComunicazioneService {
      */
     void invioNota(String messaggio,
                    Long idDestinatario,
-                   Long idMittente);
+                   Long idMittente,
+                   Long idAutore);
 
     /**
      * Firma del metodo che trova tutte le note.
@@ -39,6 +41,13 @@ public interface GestioneComunicazioneService {
      * @return lista delle note di un utente.
      */
     List<NotaDTO> findNoteByIdUtente(long id);
+
+    /**
+     * Firma del metodo che cerca tutte le note inviate da un utente.
+     * @param id identificativo di un utente.
+     * @return lista delle note inviate da un utente.
+     */
+    List<NotaCaregiverDTO> findNoteInviateByIdUtente(long id);
 
     /**
      * Firma del metodo che cerca tutte le note non lette di un utente.
