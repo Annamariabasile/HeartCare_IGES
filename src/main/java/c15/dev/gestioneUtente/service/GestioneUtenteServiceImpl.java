@@ -15,10 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -180,6 +178,14 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
         Optional<UtenteRegistrato> u = medico.findById(idUtente);
         medico.delete(u.get());
     }
+
+
+    @Override
+    public void rimuoviCaregiver(final Long idCaregiver) {
+        Optional<UtenteRegistrato> u = caregiver.findById(idCaregiver);
+        caregiver.delete(u.get());
+    }
+
 
 
     /**pre Il paziente deve esistere.
@@ -574,6 +580,81 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
         }
         return false;
     }
+
+    @Override
+    public Long generaNuovoCaregiverNonRegistrato(String emailNuovoCaregiver) throws Exception {
+        Caregiver nuovoCaregiver = new Caregiver(
+                LocalDate.of(1970, 1, 1),
+                generaCodiceFiscaleCasuale(),
+                generaNumeroTelefonoCasuale(),
+                "Password123!",
+                emailNuovoCaregiver,
+                "Caregiver di Prova",
+                "Caregiver di Prova",
+                "F",
+                Role.CAREGIVER_NON_REGISTRATO);
+        caregiver.save(nuovoCaregiver);
+        return caregiver.findByEmail(emailNuovoCaregiver).getId();
+    }
+
+    private static String generaNumeroTelefonoCasuale() {
+        Random RANDOM = new Random();
+        StringBuilder numeroTelefono = new StringBuilder();
+
+        numeroTelefono.append("+");
+        numeroTelefono.append("39");
+
+        // Aggiungi il prefisso per i cellulari italiani (3xx)
+        numeroTelefono.append("3");
+        numeroTelefono.append(RANDOM.nextInt(10));  // Seconda cifra del prefisso (3xx)
+        numeroTelefono.append(RANDOM.nextInt(10));  // Terza cifra del prefisso (3xx)
+
+        for (int i = 0; i < 7; i++) {
+            numeroTelefono.append(RANDOM.nextInt(10));
+        }
+
+        return numeroTelefono.toString();
+    }
+
+
+    private static String generaCodiceFiscaleCasuale() {
+        String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String LETTERS_AND_DIGITS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random RANDOM = new Random();
+        StringBuilder codiceFiscale = new StringBuilder();
+
+        // Aggiungi le prime 6 lettere
+        for (int i = 0; i < 6; i++) {
+            codiceFiscale.append(LETTERS.charAt(RANDOM.nextInt(LETTERS.length())));
+        }
+
+        // Aggiungi 2 caratteri alfanumerici
+        for (int i = 0; i < 2; i++) {
+            codiceFiscale.append(LETTERS_AND_DIGITS.charAt(RANDOM.nextInt(LETTERS_AND_DIGITS.length())));
+        }
+
+        // Aggiungi 1 lettera
+        codiceFiscale.append(LETTERS.charAt(RANDOM.nextInt(LETTERS.length())));
+
+        // Aggiungi 2 caratteri alfanumerici
+        for (int i = 0; i < 2; i++) {
+            codiceFiscale.append(LETTERS_AND_DIGITS.charAt(RANDOM.nextInt(LETTERS_AND_DIGITS.length())));
+        }
+
+        // Aggiungi 1 lettera
+        codiceFiscale.append(LETTERS.charAt(RANDOM.nextInt(LETTERS.length())));
+
+        // Aggiungi 3 caratteri alfanumerici
+        for (int i = 0; i < 3; i++) {
+            codiceFiscale.append(LETTERS_AND_DIGITS.charAt(RANDOM.nextInt(LETTERS_AND_DIGITS.length())));
+        }
+
+        // Aggiungi 1 lettera finale
+        codiceFiscale.append(LETTERS.charAt(RANDOM.nextInt(LETTERS.length())));
+
+        return codiceFiscale.toString();
+    }
+
 
     /**
      * Metodo che aggiorna un indirizzo.

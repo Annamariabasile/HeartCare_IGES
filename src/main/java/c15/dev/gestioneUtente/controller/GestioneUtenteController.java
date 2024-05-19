@@ -514,18 +514,35 @@ public class GestioneUtenteController {
      * @return ResponseEntity è la response che sarà fetchata dal frontend.
      */
     @PostMapping("/modifica/caregiver")
-    public ResponseEntity<Object>
-    modificaCaregiver(@RequestBody final HashMap<String, String> caregiver) {
-        Long idUtente = Long.valueOf(caregiver.get("id"));
-        Paziente p = service.findPazienteById(idUtente);
-        Long idCaregiver = service.findCaregiverByIdPaziente(p.getId());
-        if (service.assegnaCaregiver(idUtente,idCaregiver)) {
-            gestioneComunicazioneService.invioEmail("Sei diventato caregiver",
-                    p.getCaregiver().getEmail());
+    public ResponseEntity<Object> modificaCaregiver(@RequestBody final HashMap<String, String> request) throws Exception {
+        Long idPaziente = Long.valueOf(request.get("idPaziente"));
+        Paziente p = service.findPazienteById(idPaziente);
+        String emailNuovoCaregiver = request.get("emailCaregiver");
+        Long idVecchioCaregiver = service.findCaregiverByIdPaziente(idPaziente);
+        Caregiver vecchioCaregiver = service.findCaregiverById(idVecchioCaregiver);
 
-            return new ResponseEntity<>(HttpStatus.OK);
+        // verifico se il nuovo caregiver è già registrato
+        if(service.getTuttiCaregiver().stream().map(caregiver -> caregiver.getEmail()).toList().contains(emailNuovoCaregiver)){
+            // il caregiver è già registrato
+            Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
+            if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
+                //gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
+                if(vecchioCaregiver.getElencoPazienti().isEmpty()){
+                    service.rimuoviCaregiver(idVecchioCaregiver);
+                }
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } else {
+            // il caregiver non è registrato
+            Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
+            if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
+                //gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
+                if(vecchioCaregiver.getElencoPazienti().isEmpty()){
+                    service.rimuoviCaregiver(idVecchioCaregiver);
+                }
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
         }
-
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

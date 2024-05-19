@@ -13,4 +13,6 @@ public interface CaregiverDAO extends UtenteRegistratoDAO {
      */
     Caregiver findByEmail(String email);
 
+
+
 }

@@ -33,6 +33,12 @@ public interface GestioneUtenteService {
     void rimuoviMedico(Long idUtente);
 
     /**
+     * Firma del metodo rimuoviCaregiver.
+     * @param idCaregiver id del caregiver che deve essere rimosso.
+     */
+    public void rimuoviCaregiver(final Long idCaregiver);
+
+    /**
      * Firma del metodo isPaziente.
      * @param idUtente id dell'utente che vogliamo controllare
      * che sia un paziente.
@@ -227,4 +233,6 @@ public interface GestioneUtenteService {
     boolean isCaregiver(Long idUtente);
 
     boolean isCaregiverNonRegistrato(Long idUtente);
+
+    Long generaNuovoCaregiverNonRegistrato(String emailNuovoCaregiver) throws Exception;
 }

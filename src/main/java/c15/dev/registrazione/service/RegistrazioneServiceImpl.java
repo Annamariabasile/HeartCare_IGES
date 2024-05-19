@@ -176,22 +176,27 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     @Override
     public AuthenticationResponse login(final AuthenticationRequest request)
                                                             throws Exception {
-        System.out.println(request.getEmail() + request.getPassword());
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         ));
-
-        System.out.println("\n\n\nSONO QUI\n\n\n");
         var user = pazienteDAO.findByEmail(request.getEmail());
         Medico medico = null;
         if (user == null) {
             medico = medicoDAO.findByEmail(request.getEmail());
-            Admin ad = null;
+            Caregiver caregiver = null;
             if (medico == null) {
-                ad = (Admin) adminDAO.findByEmail(request.getEmail());
-                var jwtToken = jwtService.generateToken(ad);
+                caregiver = caregiverDAO.findByEmail(request.getEmail());
+                Admin ad = null;
+                if(caregiver == null){
+                    ad = (Admin) adminDAO.findByEmail(request.getEmail());
+                    var jwtToken = jwtService.generateToken(ad);
+                    return AuthenticationResponse.builder()
+                            .token(jwtToken)
+                            .build();
+                }
+                var jwtToken = jwtService.generateToken(caregiver);
                 return AuthenticationResponse.builder()
                         .token(jwtToken)
                         .build();
@@ -201,7 +206,6 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
                     .token(jwtToken)
                     .build();
         }
-        System.out.println(user.toString());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

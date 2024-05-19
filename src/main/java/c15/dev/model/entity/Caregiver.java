@@ -65,6 +65,27 @@ public class Caregiver extends UtenteRegistrato{
                 Role.CAREGIVER);
     }
 
+    public Caregiver(final LocalDate dataDiNascita,
+                     final String codiceFiscale,
+                     final String numeroTelefono,
+                     final String password,
+                     final String email,
+                     final String nome,
+                     final String cognome,
+                     final String genere,
+                     final Role ruolo) throws Exception {
+        super(dataDiNascita,
+                codiceFiscale,
+                numeroTelefono,
+                password,
+                email,
+                nome,
+                cognome,
+                genere,
+                ruolo);
+    }
+
+
     /**
      * Metodo equals.
      * @param o oggetto da confrontare.
