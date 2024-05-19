@@ -5,6 +5,7 @@ import c15.dev.model.dao.NotaDAO;
 import c15.dev.model.dto.NotaCaregiverDTO;
 import c15.dev.model.dto.NotaDTO;
 import c15.dev.model.dto.NotificaDTO;
+import c15.dev.model.entity.Caregiver;
 import c15.dev.model.entity.Medico;
 import c15.dev.model.entity.Nota;
 import c15.dev.model.entity.Paziente;
@@ -100,6 +101,20 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
                     StatoNota.NON_LETTA,
                     m,
                     p);
+            notaDAO.save(nota);
+            return;
+        } else if(utenteService.isPaziente(idAutore)){
+
+            Medico m = (Medico) utenteService.findMedicoById(idDestinatario);
+            Paziente p = (Paziente) utenteService.findPazienteById(idMittente);
+
+            Nota nota =
+                    new Nota(messaggio,
+                            LocalDate.now(),
+                            idMittente,
+                            StatoNota.NON_LETTA,
+                            m,
+                            p);
             notaDAO.save(nota);
             return;
         }
