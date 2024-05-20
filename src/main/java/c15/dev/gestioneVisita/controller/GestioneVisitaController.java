@@ -2,11 +2,9 @@ package c15.dev.gestioneVisita.controller;
 
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
 import c15.dev.gestioneVisita.service.GestioneVisitaService;
+import c15.dev.model.dto.NotaCaregiverDTO;
 import c15.dev.model.dto.VisitaDTO;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.Paziente;
-import c15.dev.model.entity.Visita;
+import c15.dev.model.entity.*;
 import c15.dev.model.entity.enumeration.StatoVisita;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Leopoldo Todisco.
@@ -136,6 +136,39 @@ public class GestioneVisitaController {
           Visita visita = visitaService.findById(idVisita);
           LocalDate datax = LocalDate.parse(body.get("nuovaData"));
           visitaService.cambiaData(visita, datax);
+    }
+
+    @PostMapping(path = "/getVisiteCaregiver")
+    public ResponseEntity<Object> getVisiteByCaregiver(final HttpServletRequest request) {
+        var email = request.getUserPrincipal().getName();
+        if (utenteService.findUtenteByEmail(email) == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        Caregiver caregiver = (Caregiver) utenteService.findUtenteByEmail(email);
+        List<Paziente> pazientiDelCaregiver = caregiver.getElencoPazienti();
+
+        List<VisitaDTO> visiteDeiPazienti = new ArrayList<>();
+
+        pazientiDelCaregiver.forEach(paziente -> {
+            visiteDeiPazienti.addAll(
+                    paziente.getElencoVisite().stream()
+                            .map(v -> VisitaDTO.builder()
+                                    .idPaziente(v.getPaziente().getId())
+                                    .data(v.getData())
+                                    .nomePaziente(v.getPaziente().getNome())
+                                    .cognomePaziente(v.getPaziente().getCognome())
+                                    .genere(v.getPaziente().getGenere())
+                                    .numeroTelefono(v.getPaziente().getNumeroTelefono())
+                                    .viaIndirizzo(v.getIndirizzoVisita().getVia())
+                                    .nCivico(v.getIndirizzoVisita().getNCivico())
+                                    .provincia(v.getIndirizzoVisita().getProvincia())
+                                    .comune(v.getIndirizzoVisita().getCitta())
+                                    .idVisita(v.getId())
+                                    .build())
+                            .collect(Collectors.toList())
+            );
+        });
+        return new ResponseEntity<>(visiteDeiPazienti, HttpStatus.OK);
     }
 
 }

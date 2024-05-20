@@ -4,10 +4,8 @@ import c15.dev.gestioneMisurazione.misurazioneAdapter.DispositivoMedicoAdapter;
 import c15.dev.gestioneMisurazione.misurazioneAdapter.DispositivoMedicoStub;
 import c15.dev.gestioneMisurazione.service.GestioneMisurazioneService;
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
-import c15.dev.model.entity.Paziente;
-import c15.dev.model.entity.MisurazionePressione;
-import c15.dev.model.entity.Misurazione;
-import c15.dev.model.entity.MisurazioneGlicemica;
+import c15.dev.model.dto.MisurazioneDTO;
+import c15.dev.model.entity.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +21,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Paolo Carmine Valletta, Alessandro Zoccola.
@@ -181,6 +181,26 @@ public class GestioneMisurazioneController {
         Long idPaz = Long.parseLong(body.get("id").toString());
         var list = misurazioneService.getAllMisurazioniByPaziente(idPaz);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    
+    @PostMapping(value = "/getAllMisurazioniByCaregiver")
+    public ResponseEntity<Object>
+    getAllMisurazioniByCaregiver(final HttpServletRequest request) {
+        var email = request.getUserPrincipal().getName();
+        if (utenteService.findUtenteByEmail(email) == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        Caregiver caregiver = (Caregiver) utenteService.findUtenteByEmail(email);
+        List<Paziente> pazientiDelCaregiver = caregiver.getElencoPazienti();
+
+        List<MisurazioneDTO> misurazioniDeiPazienti = new ArrayList<>();
+        pazientiDelCaregiver.forEach(paziente -> {
+            misurazioniDeiPazienti.addAll(
+                misurazioneService.getAllMisurazioniByPaziente(paziente.getId()).stream().collect(Collectors.toList())
+            );
+        });
+        return new ResponseEntity<>(misurazioniDeiPazienti, HttpStatus.OK);
     }
 
     /**
