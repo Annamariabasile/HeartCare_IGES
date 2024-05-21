@@ -151,6 +151,15 @@ public class GestioneComunicazioneController {
         return new ResponseEntity<>(noteDeiPazienti, HttpStatus.OK);
     }
 
-
+    /**
+     * Metodo che prende tutte le note di un paziente.
+     * @param utente dati dell'utente di cui vogliamo ottenere le note.
+     * @return è la response che sarà fetchata dal frontend.
+     */
+    @PostMapping(path = "/getNoteByIdPaziente")
+    public ResponseEntity<Object> getNoteByIdPaziente(@RequestBody final HashMap<String, Long> utente) {
+        Long idPaziente = utente.get("idPaziente");
+        return new ResponseEntity<>(service.findNoteInviateERicevuteByIdUtente(idPaziente), HttpStatus.OK);
+    }
 
 }

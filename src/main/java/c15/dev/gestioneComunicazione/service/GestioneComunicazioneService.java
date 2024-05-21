@@ -62,4 +62,11 @@ public interface GestioneComunicazioneService {
      * @param idDest id del destinatario della notifica.
      */
     void sendNotifica(String message, Long idDest);
+
+    /**
+     * Firma del metodo che cerca tutte le note inviate e ricevute da un utente.
+     * @param id identificativo di un utente.
+     * @return lista delle note inviate e ricevute da un utente.
+     */
+    List<NotaDTO> findNoteInviateERicevuteByIdUtente(long id);
 }

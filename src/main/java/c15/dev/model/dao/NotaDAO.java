@@ -26,4 +26,7 @@ public interface NotaDAO extends JpaRepository<Nota, Long> {
     @Query("SELECT n FROM Nota n WHERE n.autore = :id")
     List<Nota> findNoteInviateByIdUtente(long id);
 
+    @Query("SELECT n FROM Nota n WHERE n.medico.id = :id OR n.paziente.id = :id")
+    List<Nota> findNoteInviateERicevuteByIdUtente(long id);
+
 }

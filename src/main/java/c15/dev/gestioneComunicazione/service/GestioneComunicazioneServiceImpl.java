@@ -220,4 +220,16 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
 
         template.convertAndSend("/topic/notifica", n);
     }
+
+    @Override
+    public List<NotaDTO> findNoteInviateERicevuteByIdUtente(long id) {
+        List<Nota> note = notaDAO.findNoteInviateERicevuteByIdUtente(id);
+        List<NotaDTO> dto = note
+                .stream()
+                .map(e ->
+                        new NotaDTO(utenteService.findUtenteById(e.getAutore()).getNome() + " " + utenteService.findUtenteById(e.getAutore()).getCognome(),
+                                e.getContenuto())).toList();
+
+        return dto;
+    }
 }
