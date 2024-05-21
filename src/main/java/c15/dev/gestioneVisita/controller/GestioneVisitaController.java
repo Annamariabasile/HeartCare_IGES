@@ -151,7 +151,7 @@ public class GestioneVisitaController {
 
         pazientiDelCaregiver.forEach(paziente -> {
             visiteDeiPazienti.addAll(
-                    paziente.getElencoVisite().stream()
+                    visitaService.findVisiteProgrammateByUser(paziente.getEmail()).stream()
                             .map(v -> VisitaDTO.builder()
                                     .idPaziente(v.getPaziente().getId())
                                     .data(v.getData())

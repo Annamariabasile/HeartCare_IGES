@@ -7,6 +7,7 @@ import c15.dev.model.dao.MisurazioneDAO;
 
 import c15.dev.model.dao.MisurazionePressioneDAO;
 import c15.dev.model.dao.PazienteDAO;
+import c15.dev.model.dto.MisurazioneCaregiverDTO;
 import c15.dev.model.dto.MisurazioneDTO;
 import c15.dev.model.entity.DispositivoMedico;
 import c15.dev.model.entity.Paziente;
@@ -275,4 +276,23 @@ public class GestioneMisurazioneServiceImpl
 
         return listDTO;
     }
+
+
+    @Override
+    public List<MisurazioneCaregiverDTO> getAllMisurazioniByCaregiver(final Long id) {
+        if (id == null) {
+            return null;
+        }
+
+        var list = (List<Misurazione>) misurazioneDAO
+                .getAllMisurazioniByPaziente(id);
+        UtenteRegistrato user = pazienteDao.findById(id).get();
+        List<MisurazioneCaregiverDTO> listDTO = list
+                .stream()
+                .map(m -> new MisurazioneCaregiverDTO(m, m.getDispositivoMedico().getCategoria(), user.getNome() + " " + user.getCognome()))
+                .toList();
+
+        return listDTO;
+    }
+
 }

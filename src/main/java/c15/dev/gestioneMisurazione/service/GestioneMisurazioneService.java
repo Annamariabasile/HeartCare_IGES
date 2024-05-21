@@ -1,6 +1,7 @@
 package c15.dev.gestioneMisurazione.service;
 
 
+import c15.dev.model.dto.MisurazioneCaregiverDTO;
 import c15.dev.model.dto.MisurazioneDTO;
 import c15.dev.model.entity.DispositivoMedico;
 import c15.dev.model.entity.Misurazione;
@@ -88,4 +89,11 @@ public interface GestioneMisurazioneService {
      * @return elenco di misurazioni di un paziente.
      */
     List<MisurazioneDTO> getAllMisurazioniByPaziente(Long id);
+
+    /**
+     * Firma del metodo Trova Tutte le misurazioni di un paziente.
+     * @param id
+     * @return elenco di misurazioni di un paziente.
+     */
+    List<MisurazioneCaregiverDTO> getAllMisurazioniByCaregiver(final Long id);
 }

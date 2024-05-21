@@ -4,6 +4,7 @@ import c15.dev.gestioneMisurazione.misurazioneAdapter.DispositivoMedicoAdapter;
 import c15.dev.gestioneMisurazione.misurazioneAdapter.DispositivoMedicoStub;
 import c15.dev.gestioneMisurazione.service.GestioneMisurazioneService;
 import c15.dev.gestioneUtente.service.GestioneUtenteService;
+import c15.dev.model.dto.MisurazioneCaregiverDTO;
 import c15.dev.model.dto.MisurazioneDTO;
 import c15.dev.model.entity.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -159,8 +160,7 @@ public class GestioneMisurazioneController {
      * @return elenco misurazioni di una specifica categoria.
      */
     @PostMapping(value = "/getMisurazioneCategoria")
-    public List<Misurazione>
-    getMisurazioniByCategoria(@RequestBody final HashMap<String, Object> bo) {
+    public List<Misurazione> getMisurazioniByCategoria(@RequestBody final HashMap<String, Object> bo) {
         String cat = bo.get("categoria").toString();
         Long idPaz = Long.parseLong(bo.get("id").toString());
         return misurazioneService.getMisurazioneByCategoria(cat, idPaz);
@@ -175,8 +175,7 @@ public class GestioneMisurazioneController {
      * @return elenco delle misurazioni del paziente passato in input.
      */
     @PostMapping(value = "/getAllMisurazioniByPaziente")
-    public ResponseEntity<Object>
-    getAllMisurazioniByPaziente(@RequestBody
+    public ResponseEntity<Object> getAllMisurazioniByPaziente(@RequestBody
                                  final HashMap<String, Object> body) {
         Long idPaz = Long.parseLong(body.get("id").toString());
         var list = misurazioneService.getAllMisurazioniByPaziente(idPaz);
@@ -185,8 +184,7 @@ public class GestioneMisurazioneController {
 
     
     @PostMapping(value = "/getAllMisurazioniByCaregiver")
-    public ResponseEntity<Object>
-    getAllMisurazioniByCaregiver(final HttpServletRequest request) {
+    public ResponseEntity<Object> getAllMisurazioniByCaregiver(final HttpServletRequest request) {
         var email = request.getUserPrincipal().getName();
         if (utenteService.findUtenteByEmail(email) == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -194,10 +192,10 @@ public class GestioneMisurazioneController {
         Caregiver caregiver = (Caregiver) utenteService.findUtenteByEmail(email);
         List<Paziente> pazientiDelCaregiver = caregiver.getElencoPazienti();
 
-        List<MisurazioneDTO> misurazioniDeiPazienti = new ArrayList<>();
+        List<MisurazioneCaregiverDTO> misurazioniDeiPazienti = new ArrayList<>();
         pazientiDelCaregiver.forEach(paziente -> {
             misurazioniDeiPazienti.addAll(
-                misurazioneService.getAllMisurazioniByPaziente(paziente.getId()).stream().collect(Collectors.toList())
+                misurazioneService.getAllMisurazioniByCaregiver(paziente.getId()).stream().collect(Collectors.toList())
             );
         });
         return new ResponseEntity<>(misurazioniDeiPazienti, HttpStatus.OK);
