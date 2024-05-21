@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -171,4 +172,25 @@ public class GestioneVisitaController {
         return new ResponseEntity<>(visiteDeiPazienti, HttpStatus.OK);
     }
 
+    @PostMapping(path = "/getVisiteByPaziente")
+    public ResponseEntity<Object> visiteByUser(@RequestBody final HashMap<String, Long> utente) {
+        Long idPaziente = utente.get("idPaziente");
+        List<Visita> list = visitaService.findVisiteProgrammateByUser(utenteService.findPazienteById(idPaziente).getEmail());
+        var resultList = (List<VisitaDTO>) list.stream()
+                .map(v -> VisitaDTO.builder()
+                        .idPaziente(v.getPaziente().getId())
+                        .data(v.getData())
+                        .nomePaziente(v.getPaziente().getNome())
+                        .cognomePaziente(v.getPaziente().getCognome())
+                        .genere(v.getPaziente().getGenere())
+                        .numeroTelefono(v.getPaziente().getNumeroTelefono())
+                        .viaIndirizzo(v.getIndirizzoVisita().getVia())
+                        .nCivico(v.getIndirizzoVisita().getNCivico())
+                        .provincia(v.getIndirizzoVisita().getProvincia())
+                        .comune(v.getIndirizzoVisita().getCitta())
+                        .idVisita(v.getId())
+                        .build())
+                .toList();
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
 }
