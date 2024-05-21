@@ -526,7 +526,7 @@ public class GestioneUtenteController {
             // il caregiver è già registrato
             Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
             if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
-                //gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
+                gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){
                     service.rimuoviCaregiver(idVecchioCaregiver);
                 }
@@ -536,7 +536,7 @@ public class GestioneUtenteController {
             // il caregiver non è registrato
             Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
             if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
-                //gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
+                gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){
                     service.rimuoviCaregiver(idVecchioCaregiver);
                 }

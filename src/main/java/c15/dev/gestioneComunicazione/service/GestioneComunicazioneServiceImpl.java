@@ -65,9 +65,9 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
     public void invioEmail(final String messaggio,
                            final String emailDestinatario) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("leopoldo.todiscozte@gmail.com");
-        message.setTo("leopoldo.todiscozte@gmail.com");
-        message.setSubject("PROVA");
+        message.setFrom("paolocarmine1201@gmail.com");
+        message.setTo(emailDestinatario);
+        message.setSubject("Sei diventato un caregiver.");
         message.setText(messaggio);
         mailSender.send(message);
         System.out.println("email inviata");

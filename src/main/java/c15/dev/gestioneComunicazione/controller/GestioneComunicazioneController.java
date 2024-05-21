@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +53,7 @@ public class GestioneComunicazioneController {
     @PostMapping(path = "invioEmail")
     public void invioEmail() {
         String messaggio = "notifica di prova";
-        service.invioEmail(messaggio, "leopoldo.todiscozte@gmail.com");
+        service.invioEmail(messaggio, "paolocarmine1201@gmail.com");
     }
 
     /**
