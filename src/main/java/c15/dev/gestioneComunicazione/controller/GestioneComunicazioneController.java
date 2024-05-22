@@ -51,10 +51,13 @@ public class GestioneComunicazioneController {
      * Metodo che inva una mail.
      */
     @PostMapping(path = "invioEmail")
-    public void invioEmail() {
-        String messaggio = "notifica di prova";
-        service.invioEmail(messaggio, "paolocarmine1201@gmail.com");
+    public void invioEmail(@RequestBody final HashMap<String, String> body) {
+        String messaggio = "Testo di prova.";
+        String oggetto = "Oggetto di prova";
+        //System.out.println(body.get("mailDestinatario"));
+        service.invioEmail(messaggio, oggetto, body.get("mailDestinatario"));
     }
+
 
     /**
      * Metodo che invia una nota.

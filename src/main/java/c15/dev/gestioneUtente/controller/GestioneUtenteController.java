@@ -510,7 +510,7 @@ public class GestioneUtenteController {
 
     /**
      * Metodo che permette di modificare il caregiver di un paziente.
-     * @param caregiver map contenente i dati del paziente e del caregiver.
+     * @param request map contenente i dati del paziente e del caregiver.
      * @return ResponseEntity è la response che sarà fetchata dal frontend.
      */
     @PostMapping("/modifica/caregiver")
@@ -526,7 +526,9 @@ public class GestioneUtenteController {
             // il caregiver è già registrato
             Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
             if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
-                gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
+                String nomePaziente = service.findPazienteById(idPaziente).getNome() + " " + service.findPazienteById(idPaziente).getCognome();
+                String messaggio = "Il paziente " +nomePaziente+ " è stato aggiunto alla lista dei tuoi pazienti.";
+                gestioneComunicazioneService.invioEmail(messaggio, "Hai un nuovo paziente", p.getCaregiver().getEmail());
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){
                     service.rimuoviCaregiver(idVecchioCaregiver);
                 }
@@ -536,7 +538,9 @@ public class GestioneUtenteController {
             // il caregiver non è registrato
             Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
             if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
-                gestioneComunicazioneService.invioEmail("Sei diventato caregiver", p.getCaregiver().getEmail());
+                String messaggio = "http://localhost:8080/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
+                String oggetto = "Hai un nuovo caregiver";
+                gestioneComunicazioneService.invioEmailRegistrazioneCaregiver(messaggio, oggetto, p.getCaregiver().getEmail(), idPaziente, idNuovoCaregiver);
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){
                     service.rimuoviCaregiver(idVecchioCaregiver);
                 }

@@ -16,7 +16,18 @@ public interface GestioneComunicazioneService {
      * @param emailDestinatario mail a cui inviare il messaggio.
      */
     void invioEmail(String messaggio,
+                    String oggetto,
                     String emailDestinatario);
+
+
+    /**
+     * Firma del metodo che invia una mail.
+     * @param messaggio messaggio da inviare nell'email.
+     * @param emailDestinatario mail a cui inviare il messaggio.
+     * @param idPaziente id del paziente a cui è stato assegnato un nuovo caregiver.
+     * @param idCaregiver id del caregiver che deve registrarsi.
+     */
+    void invioEmailRegistrazioneCaregiver(String messaggio, String oggetto, String emailDestinatario, Long idPaziente, Long idCaregiver);
 
     /**
      * Firma del metodo che invia una nota.

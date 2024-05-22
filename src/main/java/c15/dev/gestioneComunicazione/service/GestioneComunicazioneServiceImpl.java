@@ -63,16 +63,28 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
     @Override
     @Async
     public void invioEmail(final String messaggio,
+                           final String oggetto,
                            final String emailDestinatario) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("paolocarmine1201@gmail.com");
         message.setTo(emailDestinatario);
-        message.setSubject("Sei diventato un caregiver.");
+        message.setSubject(oggetto);
         message.setText(messaggio);
         mailSender.send(message);
         System.out.println("email inviata");
 
 
+    }
+
+    @Override
+    public void invioEmailRegistrazioneCaregiver(String messaggio, String oggetto, String emailDestinatario, Long idPaziente, Long idCaregiver) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("paolocarmine1201@gmail.com");
+        message.setTo(emailDestinatario);
+        message.setSubject(oggetto);
+        message.setText(messaggio);
+        mailSender.send(message);
+        System.out.println("Email inviata");
     }
 
     /**
@@ -210,14 +222,10 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
     @Override
     @SendTo("/topic/notifica")
     public void sendNotifica(final String message, final Long idDest) {
-        System.out.println("nel metodo sendNotifica");
         NotificaDTO n = NotificaDTO.builder()
                 .messagio(message)
                 .idPaziente(idDest)
                 .build();
-
-        System.out.println("notifica dto = " + n.toString());
-
         template.convertAndSend("/topic/notifica", n);
     }
 

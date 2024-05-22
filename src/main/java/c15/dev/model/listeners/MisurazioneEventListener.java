@@ -51,17 +51,17 @@ public class MisurazioneEventListener implements PostInsertEventListener {
     @Override
     public void onPostInsert(final PostInsertEvent event) {
         var eventEntity = event.getEntity();
-        var str = "La misurazione del tuo paziente è sballato";
-
         if (eventEntity instanceof Misurazione) {
             Misurazione misurazione = (Misurazione) eventEntity;
+            var str = "La misurazione del paziente "+ misurazione.getPaziente().getNome() + " " + misurazione.getPaziente().getCognome() +" ha prodotto valori anomali.";
+            String oggetto = "Misurazione anomala";
+            //System.out.println("IDPaziente: " + misurazione.getPaziente().getId() + " IDCaregiver: " + misurazione.getPaziente().getCaregiver().getId());
             if (ControlloMisurazioni.chiamaControllo(misurazione)) {
-                comunicazioneService.
-                        sendNotifica("Misurazione Sballata",
-                        misurazione.getPaziente().getId());
+                comunicazioneService.sendNotifica("Misurazione con valori anomali", misurazione.getPaziente().getId());
+                // todo: verificare nel front-end se la notifica arriva anche al caregiver.
+                comunicazioneService.sendNotifica("Misurazione con valori anomali", misurazione.getPaziente().getCaregiver().getId());
                 if (misurazione.getPaziente().getCaregiver().getEmail() != null) {
-                    comunicazioneService.invioEmail(str,
-                            misurazione.getPaziente().getCaregiver().getEmail());
+                    comunicazioneService.invioEmail(str, oggetto, misurazione.getPaziente().getCaregiver().getEmail());
                 }
             }
         }
