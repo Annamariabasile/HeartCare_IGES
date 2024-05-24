@@ -58,9 +58,10 @@ function LoginForm(){
                 }
                 else if(jwt(response.data.token).ruolo == "MEDICO"){
                     nav("/HomeMedico");
-                }
-                else{
+                } else if (jwt(response.data.token).ruolo == "ADMIN"){
                     nav("/HomeAdmin");
+                } else if (jwt(response.data.token).ruolo == "CAREGIVER"){
+                    nav("/HomeCaregiver");
                 }
             }, (error) => {
                 document.getElementById("spanErrore").style.display = "block";

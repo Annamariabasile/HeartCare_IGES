@@ -288,14 +288,16 @@ public class GestioneUtenteController {
             map.put("numeroNote", med.getNote().size());
             map.put("nome", med.getNome());
             map.put("cognome", med.getCognome());
-            map.put("sesso", med.getGenere());
-        } //else if (service.isCaregiverNonRegistrato(idUtente)){
+        } else if (service.isCaregiverNonRegistrato(idUtente)){
             //TODO mostra pagina di aggiunta dati mancanti
-        //} else if (service.isCaregiver(idUtente)){
-            //Caregiver car = service.findCaregiverById(idUtente);
-            //map.put("pazientiTotali", car.getElencoPazienti().size());
+        } else if (service.isCaregiver(idUtente)){
+            Caregiver car = service.findCaregiverById(idUtente);
+            map.put("pazientiTotali", car.getElencoPazienti().size());
+            map.put("nome", car.getNome());
+            map.put("cognome", car.getCognome());
+            map.put("sesso", car.getGenere());
             //TODO sistemare visite e note divisi per pazienti
-        //}
+        }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

@@ -27,6 +27,8 @@ import HomeAdmin from "./pages/HomeAdmin";
 import ProfiloMedico from "./pages/ProfiloMedico";
 import jwt from "jwt-decode"
 import Error404 from "./pages/Error404";
+import HomeCaregiver from "./pages/HomeCaregiver";
+import MenuCaregiver from "./components/MenuCaregiver";
 
 function App() {
   const AuthenticatedRoutePaziente = () => {
@@ -75,6 +77,21 @@ const AuthenticatedRouteAdmin= () => {
             );
     };
 }
+
+    const AuthenticatedRouteCaregiver= () => {
+        if (!localStorage.getItem("token")) {
+            <Navigate to={"/Login"} />
+        }
+        else {
+            if(jwt(localStorage.getItem("token")).ruolo == "CAREGIVER")
+                return(
+                    <AppShell>
+                        {" "}
+                        <MenuCaregiver /> <Outlet />{" "}
+                    </AppShell>
+                );
+        };
+    }
 
 
   const AppRoutes = () => {
@@ -180,6 +197,51 @@ const AuthenticatedRouteAdmin= () => {
             }
           />
         </Route>
+          <Route path="/" element={<AuthenticatedRouteCaregiver />}>
+              <Route exact path="/" element={<Navigate to="/Login" replace />} />
+
+              <Route
+                  path="HomeCaregiver"
+                  element={
+                      <AppShell>
+                          <HomeCaregiver />
+                      </AppShell>
+                  }
+              />
+
+              <Route
+                  path="Schedules"
+                  element={
+                      <AppShell>
+                          <Schedules />
+                      </AppShell>
+                  }
+              />
+              <Route
+                  path="Pazienti"
+                  element={
+                      <AppShell>
+                          <Pazienti />
+                      </AppShell>
+                  }
+              />
+              <Route
+                  path="ProfiloMedico"
+                  element={
+                      <AppShell>
+                          <ProfiloMedico />
+                      </AppShell>
+                  }
+              />
+              <Route
+                  path="About"
+                  element={
+                      <AppShell>
+                          <About />
+                      </AppShell>
+                  }
+              />
+          </Route>
         <Route path="*" element={<Error404/>} />
       </Routes>
     );

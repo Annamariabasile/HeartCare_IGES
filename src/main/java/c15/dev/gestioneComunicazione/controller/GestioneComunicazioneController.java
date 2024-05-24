@@ -121,6 +121,11 @@ public class GestioneComunicazioneController {
                                                              HttpStatus.OK);
     }
 
+    /**
+     * Metodo che prende tutte le note di un caregiver.
+     * @param request la richiesta.
+     * @return è la response che sarà fetchata dal frontend.
+     */
     @PostMapping(path = "/getNoteCaregiver")
     public ResponseEntity<Object> getNoteByCaregiver(final HttpServletRequest request) {
         var email = request.getUserPrincipal().getName();
@@ -136,8 +141,9 @@ public class GestioneComunicazioneController {
                     noteDeiPazienti.addAll(
                             // inserisco tutte le note che sono state inviata al paziente
                             service.findNoteNonLetteByUser(paziente.getEmail()).stream()
+                                    .filter(n -> n.getAutore() != paziente.getCaregiver().getId())
                                     .map(n -> NotaCaregiverDTO.builder()
-                                            .nomeMittente(n.getMedico().getNome() + " " + n.getMedico().getCognome())
+                                            .nomeMittente((n.getMedico()).getNome() + " " + (n.getMedico()).getCognome())
                                             .messaggio(n.getContenuto())
                                             .nomeDestinatario(n.getPaziente().getNome() + " " + n.getPaziente().getCognome())
                                             .build())
