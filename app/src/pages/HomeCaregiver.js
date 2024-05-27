@@ -12,6 +12,7 @@ import SockJS from 'sockjs-client';
 import {Stomp} from "@stomp/stompjs"
 import addNotification from 'react-push-notification';
 import NoteContainerCaregiver from "../components/NoteContainerCaregiver";
+import VisiteCaregiverContainer from "../components/VisiteCaregiverContainer";
 
 
 function HomeCaregiver() {
@@ -114,7 +115,7 @@ function HomeCaregiver() {
             </span>
 
                         <div className="box-visite box-visiteHomeMedico">
-                            <ListaVisita classe="cardPazienteHomeMedico"/>
+                            <VisiteCaregiverContainer classe="cardPazienteHomeMedico"/>
                         </div>
                     </div>
                 </div>
