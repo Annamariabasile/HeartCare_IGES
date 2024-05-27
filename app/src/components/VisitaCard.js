@@ -250,4 +250,5 @@ function VisitaCard(props) {
         </div>
     );
 }
+
 export default VisitaCard;

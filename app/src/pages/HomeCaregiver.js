@@ -115,7 +115,7 @@ function HomeCaregiver() {
             </span>
 
                         <div className="box-visite box-visiteHomeMedico">
-                            <VisiteCaregiverContainer classe="cardPazienteHomeMedico"/>
+                            <VisiteCaregiverContainer classe="cardPazienteHomeMedico" ruolo={utente["ruolo"]}/>
                         </div>
                     </div>
                 </div>
