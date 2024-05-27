@@ -54,7 +54,7 @@ function PazientiCaregiver() {
                 (utente["sesso"] === "M") ? <span className="bentornato">Bentornato, Sig. {utente["cognome"]} 👋🏻</span> : <span className="bentornato">Bentornata, Sig.ra {utente["cognome"]} 👋🏻</span>
             }
             <span className="iTuoiPazienti">I tuoi pazienti: </span>
-            <ListaPazientiCaregiver txt={testo} />
+            <ListaPazientiCaregiver txt={testo} ruolo={utente["ruolo"]} />
         </div>
     );
 }

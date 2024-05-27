@@ -62,7 +62,7 @@ function ListaVisita(props) {
                                 ncivico = {data[el]["ncivico"]}
                                 provincia = {data[el]["provincia"]}
                                 idVisita = {data[el]["idVisita"]}
-
+                                ruolo={props.ruolo}
                     />
                 )
             })}

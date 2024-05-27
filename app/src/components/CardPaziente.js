@@ -118,7 +118,6 @@ function CardPaziente(props) {
         }
 
         const fetchData = async() => {
-            console.log(" ciao ", props.idPaziente)
             const response = await fetch("http://localhost:8080/getAllMisurazioniByPaziente",{
                 method : "POST",
                 headers : config,
@@ -205,9 +204,11 @@ function CardPaziente(props) {
                 <button className="buttonVisualizzaFascicolo" onClick={onOpenModal}>
                     Fascicolo Paziente
                 </button>
-                <button className="buttonVisualizzaFascicolo">
-                    Aggiungi visita
-                </button>
+                {props.ruolo === "MEDICO" && (
+                    <button className="buttonVisualizzaFascicolo">
+                        Aggiungi visita
+                    </button>
+                )}
             </div>
         </div>
     );

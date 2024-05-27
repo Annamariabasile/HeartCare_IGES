@@ -44,7 +44,7 @@ function ListaPazientiCaregiver(props){
         <div className="contenitoreCardPazienti">
             {data.map(function(paziente, idx){
                 return (
-                    <CardPaziente key={idx} idPaziente={paziente.id} nomePaziente={paziente.nome} cognomePaziente={paziente.cognome} dataNascita={paziente.dataDiNascita} genere={paziente.genere} numero={paziente.numeroTelefono}/>
+                    <CardPaziente key={idx} idPaziente={paziente.id} nomePaziente={paziente.nome} cognomePaziente={paziente.cognome} dataNascita={paziente.dataDiNascita} genere={paziente.genere} numero={paziente.numeroTelefono} ruolo={props.ruolo}/>
                 )
             })}
         </div>

@@ -39,8 +39,8 @@ function HomeCaregiver() {
                     method : "POST",
                     headers : config,
                 }).then(response => response.json());
-                setUtente(response);
 
+                console.log("Ciao: "+utente)
             } catch (error) {
                 console.error(error.message);
             }
