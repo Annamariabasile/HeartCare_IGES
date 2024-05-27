@@ -134,7 +134,7 @@ function NoteContainerPaziente() {
                     {note.map((nota) =>
                         <>
                             <span className="autore-nota" value={nota.nome}>{nota.nome}</span>
-                            <span className="autore-nota" value={nota.nome}>{nota.messaggio}</span>
+                            <span className="" value={nota.nome}>{nota.messaggio}</span>
                         </>
                     )}
                 </div>

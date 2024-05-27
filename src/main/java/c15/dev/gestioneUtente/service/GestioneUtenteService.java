@@ -121,6 +121,13 @@ public interface GestioneUtenteService {
      */
     List<Paziente> getPazientiByMedico(long idMedico);
 
+    /**
+     * Firma del metodo getPazientiByCaregiver.
+     * @param idCaregiver id del caregiver.
+     * @return Lista di tutti i pazienti associati al caregiver
+     */
+    List<Paziente> getPazientiByCaregiver(long idCaregiver);
+
 
 
     /**
@@ -235,4 +242,6 @@ public interface GestioneUtenteService {
     boolean isCaregiverNonRegistrato(Long idUtente);
 
     Long generaNuovoCaregiverNonRegistrato(String emailNuovoCaregiver) throws Exception;
+
+
 }

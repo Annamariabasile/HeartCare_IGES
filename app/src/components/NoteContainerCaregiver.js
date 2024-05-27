@@ -8,7 +8,9 @@ import "../css/note-style.css";
 
 function NoteContainerCaregiver() {
     const token = localStorage.getItem("token");
-    const [idDestinatario, setIdPaziente] = useState();
+    const [idPazienteMittente, setIdPaziente] = useState();
+    const [idDestinatario, setIdDestinatario] = useState('');
+
     const idMittente = jwt(token).id;
 
     const [note, setNote] = useState([]);
@@ -51,8 +53,8 @@ function NoteContainerCaregiver() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    idMittente: idMittente,
-                    idDestinatario: idDestinatario,
+                    idMittente: idPazienteMittente,
+                    idDestinatario: idDestinatario,  // trovare un modo per mettere id del medico
                     nota: nota
                 }),
 
@@ -70,7 +72,7 @@ function NoteContainerCaregiver() {
     const [pazienti, setPazienti] = useState([]);
 
     const fetchPazienti = async () => {
-        return await fetch("http://localhost:8080/getPazientiByMedico/" + idMittente, {
+        return await fetch("http://localhost:8080/getPazientiByCaregiver/" + idMittente, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -104,12 +106,36 @@ function NoteContainerCaregiver() {
 
 
 
-    const onChangeHandler = (event) => {
+    const onChangeHandler = async (event) => {
         setIdPaziente(event.target.value);
+        try {
+            const response = await fetch('http://localhost:8080/comunicazione/getMedico', {
+                method: 'POST',
+                mode: "cors", // no-cors, *cors, same-origin
+                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: "same-origin", // include, *same-origin, omit
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                }, redirect: "follow", // manual, *follow, error
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                //body: JSON.stringify(data), // body data type must match "Content-Type" header
+                body: JSON.stringify({ idMittente: idPazienteMittente }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setIdDestinatario(data);
+            } else {
+                console.error('Errore nella richiesta:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Errore nella richiesta:', error);
+        }
     }
 
     const [nota, setNota] = useState("")
-
     const onNotaChange = (event) => {
         setNota(event.target.value);
     }
@@ -127,8 +153,7 @@ function NoteContainerCaregiver() {
                         <select className="selectPaziente" onChange={onChangeHandler} >
                             {
                                 pazienti.map((paziente) =>
-                                    <option value={paziente.id}>{paziente.nome}</option>
-
+                                    <option value={paziente.id}>{paziente.nome} {paziente.cognome}</option>
                                 )
                             };
                         </select>
@@ -144,9 +169,9 @@ function NoteContainerCaregiver() {
                 <div className="nota-div">
                     {note.map((nota) =>
                         <>
-                            <span className="autore-nota" value={nota.nome}>{nota.nomeMittente}</span>
-                            <span className="autore-nota" value={nota.nome}>{nota.nomeDestinatario}</span>
-                            <span className="autore-nota" value={nota.nome}>{nota.messaggio}</span>
+                            <span className="autore-nota" value={nota.nome}>Da: {nota.nomeMittente}</span>
+                            <span className="autore-nota" value={nota.nome}>A: {nota.nomeDestinatario}</span>
+                            <span className="" value={nota.nome}>{nota.messaggio}</span>
                         </>
                     )}
                 </div>

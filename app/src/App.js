@@ -29,6 +29,7 @@ import jwt from "jwt-decode"
 import Error404 from "./pages/Error404";
 import HomeCaregiver from "./pages/HomeCaregiver";
 import MenuCaregiver from "./components/MenuCaregiver";
+import PazientiCaregiver from "./pages/PazientiCaregiver";
 
 function App() {
   const AuthenticatedRoutePaziente = () => {
@@ -218,10 +219,10 @@ const AuthenticatedRouteAdmin= () => {
                   }
               />
               <Route
-                  path="Pazienti"
+                  path="PazientiCaregiver"
                   element={
                       <AppShell>
-                          <Pazienti />
+                          <PazientiCaregiver/>
                       </AppShell>
                   }
               />

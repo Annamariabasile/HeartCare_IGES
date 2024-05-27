@@ -168,6 +168,19 @@ public class GestioneUtenteController {
         return new ResponseEntity<>(paz, HttpStatus.OK);
     }
 
+    /**
+     * pre: idCaregiver non deve essere null.
+     * Metodo che restituisce tutti i pazienti di un caregiver.
+     * @param idCaregiver id del caregiver.
+     * @return ResponseEntity è la response che sarà fetchata dal frontend.
+     */
+    @GetMapping(value = "/getPazientiByCaregiver/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getPazientiByCaregiver(@PathVariable("id") final long idCaregiver) {
+        List<Paziente> paz = service.getPazientiByCaregiver(idCaregiver);
+        return new ResponseEntity<>(paz, HttpStatus.OK);
+    }
+
 
 
     /**

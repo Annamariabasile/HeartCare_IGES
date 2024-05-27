@@ -446,11 +446,6 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
     @Override
     public List<Paziente> getPazientiByMedico(final long idMedico) {
 
-        paziente.findAll().stream().filter((p) -> p.getClass()
-                        .getSimpleName().equals("Paziente"))
-                .map(Paziente.class::cast)
-                .forEach((p) -> System.out.println(p));
-
         return paziente.findAll().stream()
                 .filter((p) -> p.getClass().getSimpleName().equals("Paziente"))
                 .map(Paziente.class::cast)
@@ -458,6 +453,15 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
                 .toList();
     }
 
+    @Override
+    public List<Paziente> getPazientiByCaregiver(long idCaregiver) {
+
+        return paziente.findAll().stream()
+                .filter((p) -> p.getClass().getSimpleName().equals("Paziente"))
+                .map(Paziente.class::cast)
+                .filter(p -> p.getCaregiver().getId() == (idCaregiver))
+                .toList();
+    }
 
 
     /**
