@@ -47,6 +47,7 @@ function ListaVisita(props) {
   return (
     <>
     {Object.keys(data).map(function(el, index){
+      console.log("OHOHOHO "+ props.ruolo)
                 return (
                   <VisitaCard classe={props.classe}
                               key={index}
@@ -62,7 +63,7 @@ function ListaVisita(props) {
                               ncivico = {data[el]["ncivico"]}
                               provincia = {data[el]["provincia"]}
                               idVisita = {data[el]["idVisita"]}
-
+                              ruolo = {props.ruolo}
                   />
                 )
     })}

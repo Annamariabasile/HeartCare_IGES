@@ -198,7 +198,7 @@ function Schedules() {
         </Modal>
 
         <div className="contenitoreCardPazienti">
-          <ListaVisita classe="cardPaziente"/>
+          <ListaVisita classe="cardPaziente" ruolo={utente["ruolo"]}/>
         </div>
       </div>
   );

@@ -30,6 +30,7 @@ import Error404 from "./pages/Error404";
 import HomeCaregiver from "./pages/HomeCaregiver";
 import MenuCaregiver from "./components/MenuCaregiver";
 import PazientiCaregiver from "./pages/PazientiCaregiver";
+import ScheduleCaregiver from "./pages/ScheduleCaregiver";
 
 function App() {
   const AuthenticatedRoutePaziente = () => {
@@ -211,10 +212,10 @@ const AuthenticatedRouteAdmin= () => {
               />
 
               <Route
-                  path="Schedules"
+                  path="ScheduleCaregiver"
                   element={
                       <AppShell>
-                          <Schedules />
+                          <ScheduleCaregiver />
                       </AppShell>
                   }
               />

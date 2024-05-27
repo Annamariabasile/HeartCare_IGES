@@ -47,7 +47,7 @@ function MenuCaregiver() {
                 </Link>
 
                 <Link
-                    to={"/Schedules"}
+                    to={"/ScheduleCaregiver"}
                     className="voceMenuText"
                     onClick={() => addClassActive(2, "contenitoreScheduleContent")}
                 >

@@ -288,6 +288,7 @@ public class GestioneUtenteController {
             map.put("cognome", paz.getCognome());
             map.put("numeroNote", paz.getNote().size());
             map.put("sesso", paz.getGenere());
+            map.put("ruolo",paz.getRuolo());
         } else if (service.isMedico(idUtente)) {
             Medico med = service.findMedicoById(idUtente);
             map.put("pazientiTotali", med.getElencoPazienti().size());
@@ -301,6 +302,8 @@ public class GestioneUtenteController {
             map.put("numeroNote", med.getNote().size());
             map.put("nome", med.getNome());
             map.put("cognome", med.getCognome());
+            map.put("ruolo",med.getRuolo());
+            System.out.println("MEDICOOOOOO " + med.getRuolo());
         } else if (service.isCaregiverNonRegistrato(idUtente)){
             //TODO mostra pagina di aggiunta dati mancanti
         } else if (service.isCaregiver(idUtente)){
@@ -309,6 +312,8 @@ public class GestioneUtenteController {
             map.put("nome", car.getNome());
             map.put("cognome", car.getCognome());
             map.put("sesso", car.getGenere());
+            map.put("ruolo",car.getRuolo());
+            System.out.println("Caregiver" + car.getRuolo());
             //TODO sistemare visite e note divisi per pazienti
         }
 

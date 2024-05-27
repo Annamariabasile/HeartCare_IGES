@@ -5,11 +5,13 @@ import "../css/visita-style.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import VisitaCard from "./VisitaCard";
+import {json} from "react-router-dom";
 
 function ListaVisita(props) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const token = localStorage.getItem("token");
+    let map = {};
 
     let config = {
         Accept: "application/json",
@@ -28,11 +30,29 @@ function ListaVisita(props) {
                 headers : config,
             }).then(response => response.json());
             setData(response);
+            map=divideByNomeCognome(data)
+            console.log("MAPPA2: "+map)
         } catch (error) {
             console.error(error.message);
         }
         setLoading(false);
     };
+
+    function divideByNomeCognome(lista) {
+        let map = {};
+
+        lista.forEach((item) => {
+            const key = `${item.nomePaziente}${item.cognomePaziente}`;
+
+            if (!map[key]) {
+                map[key] = [];
+            }
+
+            map[key].push(item);
+        });
+        console.log("mappa1 "+ map)
+        return Object.values(map);
+    }
 
     useEffect( () => {
         fetchData();
