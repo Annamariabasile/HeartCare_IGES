@@ -558,7 +558,9 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
     @Override
     public Long findCaregiverByIdPaziente(Long idPaziente) {
         Caregiver c = findPazienteById(idPaziente).getCaregiver();
-        return c.getId();
+        if(c != null)
+            return c.getId();
+        return null;
     }
 
     @Override
