@@ -31,9 +31,17 @@ import HomeCaregiver from "./pages/HomeCaregiver";
 import MenuCaregiver from "./components/MenuCaregiver";
 import PazientiCaregiver from "./pages/PazientiCaregiver";
 import ScheduleCaregiver from "./pages/ScheduleCaregiver";
+import RegistrazioneCaregiver from "./pages/RegistrazioneCaregiver";
 
 function App() {
+    let params = new URLSearchParams(window.location.search);
+    let idCaregiver = params.get('idCaregiver');
+    let idPaziente = params.get('idPaziente');
   const AuthenticatedRoutePaziente = () => {
+      if(idCaregiver!=null){
+          localStorage.removeItem("token");
+          <Navigate to={"/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idCaregiver} />
+      }
     if(!localStorage.getItem("token")) {
       <Navigate to={"/Login"} />
     }
@@ -53,7 +61,7 @@ function App() {
   const AuthenticatedRouteMedico = () => {
     if (!localStorage.getItem("token")) {
       <Navigate to={"/Login"} />
-    } 
+    }
     else {
       if(jwt(localStorage.getItem("token")).ruolo == "MEDICO")
       return(
@@ -95,12 +103,12 @@ const AuthenticatedRouteAdmin= () => {
         };
     }
 
-
   const AppRoutes = () => {
     return (
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="Registrazione" element={<Registrazione />} />
+          <Route path="registrazioneCaregiver" element={<RegistrazioneCaregiver />} />
           <Route path="/" element={<AuthenticatedRouteAdmin />}>
               <Route exact path="/" element={<Navigate to="/Login" replace />} />
               <Route
@@ -156,7 +164,7 @@ const AuthenticatedRouteAdmin= () => {
         </Route>
         <Route path="/" element={<AuthenticatedRouteMedico />}>
           <Route exact path="/" element={<Navigate to="/Login" replace />} />
-      
+
           <Route
             path="HomeMedico"
             element={
@@ -165,7 +173,7 @@ const AuthenticatedRouteAdmin= () => {
               </AppShell>
             }
           />
-         
+
           <Route
             path="Schedules"
             element={

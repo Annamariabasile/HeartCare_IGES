@@ -242,7 +242,8 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         // se esiste, è un caregiver_non_registrato oppure esiste già qualcuno con quella email.
         if(caregiverNonRegistrato != null){
             if(caregiverNonRegistrato.getRuolo() == Role.CAREGIVER_NON_REGISTRATO){
-                // aggiorno le informazioni del caregiver non registrato e poi le salvo.
+                caregiverNonRegistrato.setNome(caregiver.getNome());
+                caregiverNonRegistrato.setCognome(caregiver.getCognome());
                 caregiverNonRegistrato.setPassword(caregiver.getPassword());
                 caregiverNonRegistrato.setNumeroTelefono(caregiver.getNumeroTelefono());
                 caregiverNonRegistrato.setCodiceFiscale(caregiver.getCodiceFiscale());

@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/login", "/auth/registrazione",
                         "/auth/registrazioneCaregiver",
+                        "/getCaregiver/{id}",
                         "/auth/getByEmail",
                         "/auth/getByCodice", "/ws/**",
                         "/comunicazione/invioNota",
