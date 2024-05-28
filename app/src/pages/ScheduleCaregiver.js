@@ -85,7 +85,7 @@ function ScheduleCaregiver() {
             }
             <span className="iTuoiPazienti">Le tue visite in programma: </span>
 
-            <div className="box-visite box-visiteHomeMedico">
+            <div className="box-visite-caregiver box-visiteHomeMedico">
                 <VisiteCaregiverContainer classe="cardPazienteHomeMedico" ruolo={utente["ruolo"]}/>
             </div>
         </div>

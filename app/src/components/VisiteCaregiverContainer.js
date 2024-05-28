@@ -5,13 +5,13 @@ import "../css/visita-style.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import VisitaCard from "./VisitaCard";
-import {json} from "react-router-dom";
+import { json } from "react-router-dom";
 
 function ListaVisita(props) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [map, setMap] = useState({});
     const token = localStorage.getItem("token");
-    let map = {};
 
     let config = {
         Accept: "application/json",
@@ -19,19 +19,19 @@ function ListaVisita(props) {
         "Access-Control-Allow-Headers": "*",
         withCredentials: true,
         Authorization: `Bearer ${token}`,
-        "Content-Type" : "application/json"
+        "Content-Type": "application/json"
     };
 
     const fetchData = async () => {
         setLoading(true);
         try {
             const response = await fetch("http://localhost:8080/visite/getVisiteCaregiver", {
-                method : "POST",
-                headers : config,
+                method: "POST",
+                headers: config,
             }).then(response => response.json());
             setData(response);
-            map=divideByNomeCognome(data)
-            console.log("MAPPA2: "+map)
+            const mappedData = divideByNomeCognome(response);
+            setMap(mappedData);
         } catch (error) {
             console.error(error.message);
         }
@@ -42,50 +42,48 @@ function ListaVisita(props) {
         let map = {};
 
         lista.forEach((item) => {
-            const key = `${item.nomePaziente}${item.cognomePaziente}`;
-
+            const key = `${item.nomePaziente} ${item.cognomePaziente}`;
             if (!map[key]) {
                 map[key] = [];
             }
-
             map[key].push(item);
         });
-        console.log("mappa1 "+ map)
-        return Object.values(map);
+
+        return map;
     }
 
-    useEffect( () => {
-        fetchData();
-    }, [])
-
     useEffect(() => {
-        if(data.length > 0) {
-
-        }
-    }, [data])
+        fetchData();
+    }, []);
 
     return (
         <>
-            {Object.keys(data).map(function(el, index){
-                return (
-                    <VisitaCard classe={props.classe}
-                                key={index}
-                                id={data[el]["idPaziente"]}
-                                dataVisita={data[el]["data"]}
-                                statoVisita={data[el]["statoVisita"]}
-                                nomePaziente={data[el]["nomePaziente"]}
-                                cognomePaziente={data[el]["cognomePaziente"]}
-                                numero={data[el]["numeroTelefono"]}
-                                genere={data[el]["genere"]}
-                                comune = {data[el]["comune"]}
-                                via = {data[el]["viaIndirizzo"]}
-                                ncivico = {data[el]["ncivico"]}
-                                provincia = {data[el]["provincia"]}
-                                idVisita = {data[el]["idVisita"]}
-                                ruolo={props.ruolo}
-                    />
-                )
-            })}
+            {Object.keys(map).map((key, index) => (
+                <div key={index} >
+                    <h2>{key}</h2>
+                    <div style={{ display: 'flex', gap: '10px'}}>
+                    {map[key].map((item, idx) => (
+                        <VisitaCard
+                            classe={props.classe}
+                            key={`${index}-${idx}`}
+                            id={item.idPaziente}
+                            dataVisita={item.data}
+                            statoVisita={item.statoVisita}
+                            nomePaziente={item.nomePaziente}
+                            cognomePaziente={item.cognomePaziente}
+                            numero={item.numeroTelefono}
+                            genere={item.genere}
+                            comune={item.comune}
+                            via={item.viaIndirizzo}
+                            ncivico={item.ncivico}
+                            provincia={item.provincia}
+                            idVisita={item.idVisita}
+                            ruolo={props.ruolo}
+                        />
+                    ))}
+                    </div>
+                </div>
+            ))}
         </>
     );
 }
