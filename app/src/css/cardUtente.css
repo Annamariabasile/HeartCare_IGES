@@ -18,11 +18,11 @@
 }
 
 .cardPazienteHomeMedico{
-    width: 80%;
+    width: 300px;
     max-width: 300px;
     border-radius: 10px;
     border: 2px solid #37a69b;
-    height: 200px;
+    height: 250px;
     -webkit-box-shadow: 7px 7px 28px -11px rgba(0, 0, 0, 0.57);
     box-shadow: 7px 7px 28px -11px rgba(0, 0, 0, 0.57);
     display: flex;
@@ -134,7 +134,7 @@
 @media only screen and (min-width: 768px) and (max-width: 1250px) {
     .cardUtente{
         width: 44%;
-        height: 250px;
+        height: 350px;
     }
     .informazioneUtente{
         font-size: 15px;

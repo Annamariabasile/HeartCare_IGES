@@ -68,6 +68,17 @@ function MenuCaregiver() {
                     </div>
                 </Link>
 
+                <Link
+                    to={"/ProfiloCaregiver"}
+                    className="voceMenuText"
+                    onClick={() => addClassActive(4, "contenitoreProfiloContent")}
+                >
+                    <div className="voceMenu" id="4">
+                        <FaHospital className="iconaMenu" />
+                        <span>Profilo</span>
+                    </div>
+                </Link>
+
                 <hr className="lineaMenu" />
 
                 <Link

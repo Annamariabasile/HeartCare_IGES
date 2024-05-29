@@ -8,124 +8,113 @@ import "../css/note-style.css";
 
 function NoteContainerCaregiver() {
     const token = localStorage.getItem("token");
-    const [idPazienteMittente, setIdPaziente] = useState();
+    const [idPazienteMittente, setIdPazienteMittente] = useState('');
     const [idDestinatario, setIdDestinatario] = useState('');
-
     const idMittente = jwt(token).id;
 
     const [note, setNote] = useState([]);
-
-
-    const [listening, setListening] = useState(false);
-    const [speriamo, setSperiamo] = useState([]);
-
-    const fetchAllNote = async (event) => {
-        return await fetch("http://localhost:8080/comunicazione/getNoteCaregiver", {
-            method: "POST",// *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-        }).then(async response => {
-            response = await response.json();
-            setNote(response);
-        })
-    }
-
-    useEffect(() => {
-        fetchAllNote();
-    }, []);
-
-
-    const handleSubmit = async (event) => {
-        if(document.getElementsByClassName("textAreaTestoNote")[0].value != ""){
-            setOpen(false);
-            return await fetch("http://localhost:8080/comunicazione/invioNota", {
-                method: "POST",// *GET, POST, PUT, DELETE, etc.
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idMittente: idPazienteMittente,
-                    idDestinatario: idDestinatario,  // trovare un modo per mettere id del medico
-                    nota: nota
-                }),
-
-                withCredentials: true,
-                redirect: "follow", // manual, *follow, error
-                referrerPolicy: "no-referrer",
-            }).then(async response => {
-                response = await response.json();
-            })
-        }else{
-            document.getElementsByClassName("erroreCompilazione")[0].style.display ="block";
-        }
-    }
-
     const [pazienti, setPazienti] = useState([]);
 
-    const fetchPazienti = async () => {
-        return await fetch("http://localhost:8080/getPazientiByCaregiver/" + idMittente, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            }, redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            //body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(async (response) => {
-                response = await response.json()
-                return response;
+    useEffect(() => {
+        const fetchAllNote = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/comunicazione/getNoteCaregiver", {
+                    method: "POST",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "same-origin",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                });
+                const data = await response.json();
+                setNote(data);
+            } catch (error) {
+                console.error('Errore nel fetch delle note:', error);
             }
-        )
+        };
+
+        fetchAllNote();
+    }, [token]);
+
+    useEffect(() => {
+        const fetchPazienti = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/getPazientiByCaregiver/" + idMittente, {
+                    method: "GET",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "same-origin",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    referrerPolicy: "no-referrer",
+                });
+                const data = await response.json();
+                setPazienti(data);
+            } catch (error) {
+                console.error('Errore nel fetch dei pazienti:', error);
+            }
+        };
+
+        fetchPazienti();
+    }, [idMittente, token]);
+
+    const handleSubmit = async (event) => {
+        if (nota !== "") {
+            setOpen(false);
+            try {
+                const response = await fetch("http://localhost:8080/comunicazione/invioNota", {
+                    method: "POST",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "same-origin",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idMittente: idPazienteMittente,
+                        idDestinatario: idDestinatario,
+                        nota: nota
+                    }),
+                    withCredentials: true,
+                    redirect: "follow",
+                    referrerPolicy: "no-referrer",
+                });
+                await response.json();
+            } catch (error) {
+                console.error('Errore nell\'invio della nota:', error);
+            }
+        } else {
+            document.getElementsByClassName("erroreCompilazione")[0].style.display = "block";
+        }
     };
-
-    useState(() => {
-        fetchPazienti().then((data) => setPazienti(data));
-    });
-
-
-    const [open, setOpen] = useState(false);
-
-    const onOpenModal = () => {
-        setOpen(true)
-        setIdPaziente(pazienti[0].id);
-    };
-    const onCloseModal = () => setOpen(false);
-
-
 
     const onChangeHandler = async (event) => {
-        setIdPaziente(event.target.value);
+        const newIdPazienteMittente = event.target.value;
+        setIdPazienteMittente(newIdPazienteMittente);
         try {
             const response = await fetch('http://localhost:8080/comunicazione/getMedico', {
                 method: 'POST',
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                }, redirect: "follow", // manual, *follow, error
-                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                //body: JSON.stringify(data), // body data type must match "Content-Type" header
-                body: JSON.stringify({ idMittente: idPazienteMittente }),
+                },
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify({ idMittente: newIdPazienteMittente }),
             });
 
             if (response.ok) {
                 const data = await response.json();
+                console.log('Fetched data:', data);
                 setIdDestinatario(data);
             } else {
                 console.error('Errore nella richiesta:', response.statusText);
@@ -133,12 +122,59 @@ function NoteContainerCaregiver() {
         } catch (error) {
             console.error('Errore nella richiesta:', error);
         }
-    }
+    };
+
+    useEffect(() => {
+        console.log('Updated idDestinatario:', idDestinatario);
+    }, [idDestinatario]);
+
+    useEffect(() => {
+        console.log('Updated idPazienteMittente:', idPazienteMittente);
+    }, [idPazienteMittente]);
 
     const [nota, setNota] = useState("")
     const onNotaChange = (event) => {
         setNota(event.target.value);
     }
+
+    const [open, setOpen] = useState(false);
+
+    const onOpenModal = async () => {
+        setOpen(true);
+        if (pazienti.length > 0) {
+            const newIdPazienteMittente = pazienti[0].id;
+            setIdPazienteMittente(newIdPazienteMittente);
+
+            try {
+                const response = await fetch('http://localhost:8080/comunicazione/getMedico', {
+                    method: 'POST',
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "same-origin",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    referrerPolicy: "no-referrer",
+                    body: JSON.stringify({ idMittente: newIdPazienteMittente }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Fetched data:', data);
+                    setIdDestinatario(data);
+                } else {
+                    console.error('Errore nella richiesta:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Errore nella richiesta:', error);
+            }
+        }
+    };
+
+    const onCloseModal = () => setOpen(false);
+
 
     return (
         <div className="container-note">

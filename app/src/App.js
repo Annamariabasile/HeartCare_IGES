@@ -32,6 +32,7 @@ import MenuCaregiver from "./components/MenuCaregiver";
 import PazientiCaregiver from "./pages/PazientiCaregiver";
 import ScheduleCaregiver from "./pages/ScheduleCaregiver";
 import RegistrazioneCaregiver from "./pages/RegistrazioneCaregiver";
+import ProfiloCaregiver from "./pages/ProfiloCaregiver";
 
 function App() {
     let params = new URLSearchParams(window.location.search);
@@ -236,10 +237,10 @@ const AuthenticatedRouteAdmin= () => {
                   }
               />
               <Route
-                  path="ProfiloMedico"
+                  path="ProfiloCaregiver"
                   element={
                       <AppShell>
-                          <ProfiloMedico />
+                          <ProfiloCaregiver />
                       </AppShell>
                   }
               />
