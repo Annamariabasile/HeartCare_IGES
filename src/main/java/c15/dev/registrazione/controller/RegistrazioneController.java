@@ -121,7 +121,6 @@ public class RegistrazioneController {
 
     @PostMapping(value = "/registrazioneCaregiver")
     public AuthenticationResponse registrazioneCaregiver(@RequestBody @Valid final HashMap<String, String> caregiver) throws Exception {
-        System.out.println("\n\n\nSONO QUI\n\n\n");
         String nome = caregiver.get("nome");
         String cognome = caregiver.get("cognome");
         String password = caregiver.get("password");

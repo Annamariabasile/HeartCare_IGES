@@ -210,9 +210,7 @@ function ModificaDatiForm(){
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body:JSON.stringify({
-            id:id,
-            nomeCaregiver:nomeCaregiver,
-            cognomeCaregiver:cognomeCaregiver,
+            idPaziente:id,
             emailCaregiver:emailCaregiver
         })
         }).then(response => {
@@ -274,8 +272,6 @@ function ModificaDatiForm(){
             <div className="contenitoreForm-infoCaregiver">
                 <h1 className="titoloDati">Caregiver 🧑🏻‍💼 </h1>
                 <hr className="lineaMenuProfilo" />
-                <input type="text" placeholder={data.nomeCaregiver}  className="formEditText" onChange={aggiornaNomeCaregiver}/>
-                <input type="text" placeholder={data.cognomeCaregiver}   className="formEditText" onChange={aggiornaCognomeCaregiver}/>
                 <input type="text" placeholder={data.emailCaregiver}  className="formEditText" onChange={aggiornaEmailCaregiver}/>
                 <button className="formButton" onClick={modificaCaregiver}>Salva</button>
             </div>

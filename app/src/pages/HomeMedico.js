@@ -38,7 +38,7 @@ function HomeMedico() {
           headers : config,
         }).then(response => response.json());
         setUtente(response);
-
+        console.log("CIAO : "+ JSON.stringify(response))
       } catch (error) {
         console.error(error.message);
       }
@@ -113,7 +113,7 @@ function HomeMedico() {
             </span>
 
             <div className="box-visite box-visiteHomeMedico">
-              <ListaVisita classe="cardPazienteHomeMedico"/>
+              <ListaVisita classe="cardPazienteHomeMedico" ruolo={utente["ruolo"]}/>
             </div>
           </div>
         </div>

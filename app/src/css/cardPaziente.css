@@ -2,7 +2,7 @@
     width: 30%;
     border-radius: 10px;
     border: 2px solid #37a69b;
-    height: 250px;
+    height: 350px;
     -webkit-box-shadow: 7px 7px 28px -11px rgba(0, 0, 0, 0.57);
     box-shadow: 7px 7px 28px -11px rgba(0, 0, 0, 0.57);
     display: flex;
@@ -21,7 +21,7 @@
     width: 300px;
     border-radius: 10px;
     border: 2px solid #37a69b;
-    height: 250px;
+    height: 350px;
     -webkit-box-shadow: 7px 7px 28px -11px rgba(0, 0, 0, 0.57);
     box-shadow: 7px 7px 28px -11px rgba(0, 0, 0, 0.57);
     display: flex;
@@ -58,7 +58,7 @@
 
 .buttonVisualizzaFascicolo {
     height: 35px;
-    width: 48%;
+    width: 70%;
     border: 2px solid #697f8c;
     border-radius: 10px 10px;
     font-family: "Questrial", sans-serif;
@@ -133,7 +133,7 @@
 @media only screen and (min-width: 768px) and (max-width: 1250px) {
     .cardPaziente{
         width: 44%;
-        height: 250px;
+        height: 350px;
     }
     .informazionePaziente{
         font-size: 15px;

@@ -117,6 +117,14 @@
   padding-bottom: 30px;
 }
 
+.box-visite-caregiver {
+
+  column-gap: 20px;
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-bottom: 30px;
+}
+
 .note-container {
   display: flex;
   padding-right: 1%;
@@ -268,6 +276,7 @@
     flex-wrap: wrap;
     padding-bottom: 0;
     width: 100%;
+    height: 350px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;

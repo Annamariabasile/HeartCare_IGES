@@ -168,6 +168,19 @@ public class GestioneUtenteController {
         return new ResponseEntity<>(paz, HttpStatus.OK);
     }
 
+    /**
+     * pre: idCaregiver non deve essere null.
+     * Metodo che restituisce tutti i pazienti di un caregiver.
+     * @param idCaregiver id del caregiver.
+     * @return ResponseEntity è la response che sarà fetchata dal frontend.
+     */
+    @GetMapping(value = "/getPazientiByCaregiver/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getPazientiByCaregiver(@PathVariable("id") final long idCaregiver) {
+        List<Paziente> paz = service.getPazientiByCaregiver(idCaregiver);
+        return new ResponseEntity<>(paz, HttpStatus.OK);
+    }
+
 
 
     /**
@@ -228,9 +241,8 @@ public class GestioneUtenteController {
             map.put("via", indirizzo.getVia());
             map.put("numeroCivico", indirizzo.getNCivico());
             map.put("cap", indirizzo.getCap());
-            //map.put("emailCaregiver", paziente.getEmailCaregiver());
-            //map.put("nomeCaregiver", paziente.getNomeCaregiver());
-            //map.put("cognomeCaregiver", paziente.getCognomeCaregiver());
+            if(paziente.getCaregiver() != null)
+                map.put("emailCaregiver", paziente.getCaregiver().getEmail());
         } else if (service.isMedico(idUtente)) {
             Medico medico = service.findMedicoById(idUtente);
             Indirizzo indirizzo = medico.getIndirizzoResidenza();
@@ -275,6 +287,7 @@ public class GestioneUtenteController {
             map.put("cognome", paz.getCognome());
             map.put("numeroNote", paz.getNote().size());
             map.put("sesso", paz.getGenere());
+            map.put("ruolo",paz.getRuolo());
         } else if (service.isMedico(idUtente)) {
             Medico med = service.findMedicoById(idUtente);
             map.put("pazientiTotali", med.getElencoPazienti().size());
@@ -288,14 +301,20 @@ public class GestioneUtenteController {
             map.put("numeroNote", med.getNote().size());
             map.put("nome", med.getNome());
             map.put("cognome", med.getCognome());
-            map.put("sesso", med.getGenere());
-        } //else if (service.isCaregiverNonRegistrato(idUtente)){
+            map.put("ruolo",med.getRuolo());
+            System.out.println("MEDICOOOOOO " + med.getRuolo());
+        } else if (service.isCaregiverNonRegistrato(idUtente)){
             //TODO mostra pagina di aggiunta dati mancanti
-        //} else if (service.isCaregiver(idUtente)){
-            //Caregiver car = service.findCaregiverById(idUtente);
-            //map.put("pazientiTotali", car.getElencoPazienti().size());
+        } else if (service.isCaregiver(idUtente)){
+            Caregiver car = service.findCaregiverById(idUtente);
+            map.put("pazientiTotali", car.getElencoPazienti().size());
+            map.put("nome", car.getNome());
+            map.put("cognome", car.getCognome());
+            map.put("sesso", car.getGenere());
+            map.put("ruolo",car.getRuolo());
+            System.out.println("Caregiver" + car.getRuolo());
             //TODO sistemare visite e note divisi per pazienti
-        //}
+        }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
@@ -519,7 +538,9 @@ public class GestioneUtenteController {
         Paziente p = service.findPazienteById(idPaziente);
         String emailNuovoCaregiver = request.get("emailCaregiver");
         Long idVecchioCaregiver = service.findCaregiverByIdPaziente(idPaziente);
-        Caregiver vecchioCaregiver = service.findCaregiverById(idVecchioCaregiver);
+        Caregiver vecchioCaregiver = null;
+        if(idVecchioCaregiver != null)
+            vecchioCaregiver = service.findCaregiverById(idVecchioCaregiver);
 
         // verifico se il nuovo caregiver è già registrato
         if(service.getTuttiCaregiver().stream().map(caregiver -> caregiver.getEmail()).toList().contains(emailNuovoCaregiver)){
@@ -529,7 +550,7 @@ public class GestioneUtenteController {
                 String nomePaziente = service.findPazienteById(idPaziente).getNome() + " " + service.findPazienteById(idPaziente).getCognome();
                 String messaggio = "Il paziente " +nomePaziente+ " è stato aggiunto alla lista dei tuoi pazienti.";
                 gestioneComunicazioneService.invioEmail(messaggio, "Hai un nuovo paziente", p.getCaregiver().getEmail());
-                if(vecchioCaregiver.getElencoPazienti().isEmpty()){
+                if(vecchioCaregiver != null && vecchioCaregiver.getElencoPazienti().isEmpty()){
                     service.rimuoviCaregiver(idVecchioCaregiver);
                 }
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -538,7 +559,7 @@ public class GestioneUtenteController {
             // il caregiver non è registrato
             Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
             if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
-                String messaggio = "http://localhost:8080/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
+                String messaggio = "http://localhost:3000/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
                 String oggetto = "Hai un nuovo caregiver";
                 gestioneComunicazioneService.invioEmailRegistrazioneCaregiver(messaggio, oggetto, p.getCaregiver().getEmail(), idPaziente, idNuovoCaregiver);
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){

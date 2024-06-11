@@ -243,11 +243,14 @@ function VisitaCard(props) {
                     <input id ="calendar" className="dataPicker" type="date" min={new Date().getFullYear()} onChange={e => aggiornaDataSelect(e)}/>
                     <button className="buttonVisualizzaFascicolo" onClick={() => {aggiornaData(); setOpendata(false) ;  document.location.reload()}}> Conferma</button>
                 </Modal>
-                <button className="buttonVisualizzaFascicolo" onClick={OpenModal}>
-                    Modifica data visita
-                </button>
+                {props.ruolo === "MEDICO" && (
+                    <button className="buttonVisualizzaFascicolo" onClick={OpenModal}>
+                        Modifica data visita
+                    </button>
+                )}
             </div>
         </div>
     );
 }
+
 export default VisitaCard;
