@@ -154,6 +154,34 @@ public class GestioneUtenteController {
                 .toList(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/getTuttiCaregiver", method = RequestMethod.POST)
+    public ResponseEntity<Object> getTuttiCaregiver() {
+        UtenteRegistrato u = (UtenteRegistrato)
+                session.getAttribute("utenteLoggato");
+        return new ResponseEntity<>(service.getTuttiCaregiver()
+                .stream()
+                .filter((utente)
+                        -> utente.getClass()
+                        .getSimpleName()
+                        .equals("Caregiver"))
+                .toList(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getTuttiCaregiverNonRegistrati", method = RequestMethod.POST)
+    public ResponseEntity<Object> getTuttiCaregiverNonRegistrati() {
+        UtenteRegistrato u = (UtenteRegistrato)
+                session.getAttribute("utenteLoggato");
+        return new ResponseEntity<>(service.getTuttiCaregiverNonRegistrati()
+                .stream()
+                .filter((utente)
+                        -> utente.getClass()
+                        .getSimpleName()
+                        .equals("Caregiver"))
+                .toList(), HttpStatus.OK);
+    }
+
+
+
     /**
      * pre: idMedico non deve essere null.
      * Metodo che restituisce tutti i pazienti di un medico.

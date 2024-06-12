@@ -12,11 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,6 +164,15 @@ public class GestioneComunicazioneController {
     public ResponseEntity<Object> getNoteByIdPaziente(@RequestBody final HashMap<String, Long> utente) {
         Long idPaziente = utente.get("idPaziente");
         return new ResponseEntity<>(service.findNoteInviateERicevuteByIdUtente(idPaziente), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/invioMailCaregiverNonRegistrato/{id}")
+    public ResponseEntity<Object> invioMailCaregiverNonRegistrato(@PathVariable("id") long idCargiver){
+        Paziente p = utenteService.findCaregiverById(idCargiver).getElencoPazienti().get(0);
+        String messaggio = "http://localhost:3000/registrazioneCaregiver?idPaziente="+p.getId()+"&idCaregiver="+idCargiver;
+        String oggetto = "Hai un nuovo caregiver";
+        service.invioEmailRegistrazioneCaregiver(messaggio, oggetto, p.getCaregiver().getEmail(), p.getId(), idCargiver);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
