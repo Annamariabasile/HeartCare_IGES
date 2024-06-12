@@ -7,6 +7,8 @@ import CardPaziente from "./CardPaziente";
 import CardUtente from "./CardUtente";
 import CardAdminMedico from "./CardAdminMedico";
 import "../css/HomeAdmin.css"
+import CardAdminCaregiver from "./CardAdminCaregiverNonRegistrato";
+import CardAdminCaregiverNonRegistrato from "./CardAdminCaregiverNonRegistrato";
 
 function ListaUtenti(props) {
 
@@ -54,25 +56,56 @@ function ListaUtenti(props) {
 
         <div>
             <br/><br/><span className="iTuoiUtenti">I Pazienti :</span><br/><br/>
-        <div className="contenitoreCardPazienti">
+            <div className="contenitoreCardPazienti">
 
-            {data.map(function(medico, idx){
-                if(medico.ruolo == "PAZIENTE")
-                return (
-                    <CardUtente key={idx} idUtente={medico.id} nomeUtente={medico.nome} cognomeUtente={medico.cognome} dataNascita={medico.dataDiNascita} genere={medico.genere} numero={medico.numeroTelefono} email={medico.email}/>
-                )
-            })}
+                {data.map(function (medico, idx) {
+                    if (medico.ruolo == "PAZIENTE")
+                        return (
+                            <CardUtente key={idx} idUtente={medico.id} nomeUtente={medico.nome}
+                                        cognomeUtente={medico.cognome} dataNascita={medico.dataDiNascita}
+                                        genere={medico.genere} numero={medico.numeroTelefono} email={medico.email}/>
+                        )
+                })}
 
-        </div>
+            </div>
             <br/><br/><span className="iTuoiUtenti">I Medici :</span><br/><br/>
-    <div className="contenitoreCardPazienti">
-        {data.map(function(medico, idx){
-            if(medico.ruolo == "MEDICO")
-                return (
-                    <CardAdminMedico key={idx} idUtente={medico.id} nomeUtente={medico.nome} cognomeUtente={medico.cognome} dataNascita={medico.dataDiNascita} genere={medico.genere} numero={medico.numeroTelefono} email={medico.email}/>
-                )
-        })}
-    </div>
+            <div className="contenitoreCardPazienti">
+                {data.map(function (medico, idx) {
+                    if (medico.ruolo == "MEDICO")
+                        return (
+                            <CardAdminMedico key={idx} idUtente={medico.id} nomeUtente={medico.nome}
+                                             cognomeUtente={medico.cognome} dataNascita={medico.dataDiNascita}
+                                             genere={medico.genere} numero={medico.numeroTelefono}
+                                             email={medico.email}/>
+                        )
+                })}
+            </div>
+
+            <br/><br/><span className="iTuoiUtenti">I caregiver :</span><br/><br/>
+            <div className="contenitoreCardPazienti">
+                {data.map(function (medico, idx) {
+                    if (medico.ruolo == "CAREGIVER")
+                        return (
+                            <CardAdminMedico key={idx} idUtente={medico.id} nomeUtente={medico.nome}
+                                             cognomeUtente={medico.cognome} dataNascita={medico.dataDiNascita}
+                                             genere={medico.genere} numero={medico.numeroTelefono}
+                                             email={medico.email}/>
+                        )
+                })}
+            </div>
+
+            <br/><br/><span className="iTuoiUtenti">I caregiver non registrati :</span><br/><br/>
+            <div className="contenitoreCardPazienti">
+                {data.map(function (medico, idx) {
+                    if (medico.ruolo == "CAREGIVER_NON_REGISTRATO")
+                        return (
+                            <CardAdminCaregiverNonRegistrato key={idx} idUtente={medico.id} nomeUtente={medico.nome}
+                                             cognomeUtente={medico.cognome} dataNascita={medico.dataDiNascita}
+                                             genere={medico.genere} numero={medico.numeroTelefono}
+                                             email={medico.email}/>
+                        )
+                })}
+            </div>
 
         </div>
 
