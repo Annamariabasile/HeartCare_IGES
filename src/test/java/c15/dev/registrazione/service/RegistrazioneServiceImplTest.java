@@ -2,14 +2,8 @@ package c15.dev.registrazione.service;
 
 import c15.dev.HeartCareApplication;
 import c15.dev.HeartCareApplicationTests;
-import c15.dev.model.dao.AdminDAO;
-import c15.dev.model.dao.MedicoDAO;
-import c15.dev.model.dao.PazienteDAO;
-import c15.dev.model.dao.UtenteRegistratoDAO;
-import c15.dev.model.entity.Admin;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.Paziente;
+import c15.dev.model.dao.*;
+import c15.dev.model.entity.*;
 import c15.dev.utils.AuthenticationRequest;
 import c15.dev.utils.AuthenticationResponse;
 import c15.dev.utils.JwtService;
@@ -81,6 +75,10 @@ public class RegistrazioneServiceImplTest {
 
     private Medico med1;
 
+    private Caregiver car;
+    @Mock
+    private CaregiverDAO caregiverDAO;
+
     private Admin a1;
 
     @BeforeEach
@@ -115,6 +113,15 @@ public class RegistrazioneServiceImplTest {
                 "Fabiola",
                 "Valorant",
                 "F");
+          car = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Ciaone12345!",
+                "heartcare016@gmail.com",
+                "Annamaria",
+                  "Basile",
+                "F"
+          );
 
     }
 
@@ -128,6 +135,7 @@ public class RegistrazioneServiceImplTest {
         when(this.pazienteDAO.findByEmail(any())).thenReturn(paziente);
        when(this.adminDAO.findByEmail(any())).thenReturn(null);
        when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+       when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
 
        var jwtToken = jwtService.generateToken(paziente);
         assertEquals(AuthenticationResponse.builder()
@@ -144,6 +152,8 @@ public class RegistrazioneServiceImplTest {
         when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
         when(this.adminDAO.findByEmail(any())).thenReturn(null);
         when(this.medicoDAO.findByEmail(any())).thenReturn(med1);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
+
 
         var jwtToken = jwtService.generateToken(med1);
         assertEquals(AuthenticationResponse.builder()
@@ -161,6 +171,8 @@ public class RegistrazioneServiceImplTest {
         when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
         when(this.adminDAO.findByEmail(any())).thenReturn(a1);
         when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
+
 
         var jwtToken = jwtService.generateToken(a1);
         assertEquals(AuthenticationResponse.builder()

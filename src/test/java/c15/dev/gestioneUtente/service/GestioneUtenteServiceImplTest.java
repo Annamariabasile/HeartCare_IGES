@@ -3,10 +3,13 @@ package c15.dev.gestioneUtente.service;
 
 import c15.dev.HeartCareApplication;
 import c15.dev.HeartCareApplicationTests;
+import c15.dev.model.dao.AdminDAO;
+import c15.dev.model.dao.CaregiverDAO;
 import c15.dev.model.dao.PazienteDAO;
 
 import c15.dev.model.dao.MedicoDAO;
 
+import c15.dev.model.entity.Caregiver;
 import c15.dev.model.entity.Medico;
 import c15.dev.model.entity.Paziente;
 import lombok.SneakyThrows;
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,8 +28,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Paolo Carmine Valletta, Carlo Venditto.
@@ -43,6 +48,12 @@ public class GestioneUtenteServiceImplTest {
      */
     @Mock
     private MedicoDAO daoMedico;
+
+    @Mock
+    private CaregiverDAO daoCaregiver;
+
+    @Mock
+    private AdminDAO adminDAO;
     /**
      *  Mocking del MedicoDAO per accedere al DB da parte del paziente.
      */
@@ -56,6 +67,7 @@ public class GestioneUtenteServiceImplTest {
 
     private Paziente paz;
     private Medico med;
+    private Caregiver car;
     private ArrayList<Paziente> listaPaz;
 
 
@@ -94,8 +106,20 @@ public class GestioneUtenteServiceImplTest {
                 "Leopoldo",
                 "Todisco",
                 "M");
+
+        car = new Caregiver(LocalDate.of(2000, 11, 18),
+                "XZBWST56D49I927U",
+                "+393242345617",
+                "Ciaone12345!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "M"
+        );
+
         paz.setId(1L);
         med.setId(2L);
+        car.setId(11L);
 
         listaPaz = new ArrayList<>();
 
@@ -105,83 +129,55 @@ public class GestioneUtenteServiceImplTest {
 
     @Test
     public void testAssegnaCaregiver() throws Exception {
-
-        paziente.setEmailCaregiver("provaTest@gmail.com");
-        paziente.setNomeCaregiver("Mario");
-        paziente.setCognomeCaregiver("Cicalese");
-
-        Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
-            return Optional.of(paziente);
-        });
-        System.out.println(paziente.getId());
-        assertEquals(true,
-                service.assegnaCaregiver(paziente.getId(), paziente.getEmailCaregiver(), paziente.getNomeCaregiver(), paziente.getCognomeCaregiver()));
-
-    }
-
-    @Test
-    public void testAssegnaCaregiver_emailNull() throws Exception {
-
-        paziente.setEmailCaregiver("");
-        paziente.setNomeCaregiver("Mario");
-        paziente.setCognomeCaregiver("Cicalese");
-
-        Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
-            return Optional.of(paziente);
+        // Mock per trovare il caregiver per email corretta
+        /*when(daoCaregiver.findByEmail("heartcare016@gmail.com")).thenAnswer(invocationOnMock -> {
+            return Optional.of(car);
         });
 
-        assertEquals(false,
-                service.assegnaCaregiver(paziente.getId(), paziente.getEmailCaregiver(), paziente.getNomeCaregiver(), paziente.getCognomeCaregiver()));
-
-    }
-
-
-    @Test
-    public void testAssegnaCaregiver_nomeNull() throws Exception {
-
-        paziente.setEmailCaregiver("mariocicalese@libero.it");
-        paziente.setNomeCaregiver("");
-        paziente.setCognomeCaregiver("Cicalese");
-
-        Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
-            return Optional.of(paziente);
+        when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            Long id = invocationOnMock.getArgument(0);
+            if (id.equals(paz.getId())) {
+                return Optional.of(paz);
+            } else {
+                return Optional.empty();
+            }
         });
 
-        assertEquals(false,
-                service.assegnaCaregiver(paziente.getId(), paziente.getEmailCaregiver(), paziente.getNomeCaregiver(), paziente.getCognomeCaregiver()));
+         */
 
+        System.out.println("pazienteProva: " + paz.getNome());
+        System.out.println("caregiverPROVA: " + car.getNome());
+
+        paz.setCaregiver(car);
+        car.getElencoPazienti().add(paz);
+
+        System.out.println("caregiverDopoAverAssegnato:" + paz.getCaregiver().getNome());
+
+        // Verifica il risultato del metodo assegnare caregiver
+        assertEquals(true, service.assegnaCaregiver(paz.getId(), car.getId()));
     }
-
-
-    @Test
-    public void testAssegnaCaregiver_cognomeNull() throws Exception {
-
-        paziente.setEmailCaregiver("mariocicalese@libero.it");
-        paziente.setNomeCaregiver("Mario");
-        paziente.setCognomeCaregiver("");
-
-        Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
-            return Optional.of(paziente);
-        });
-
-        assertEquals(false,
-                service.assegnaCaregiver(paziente.getId(), paziente.getEmailCaregiver(), paziente.getNomeCaregiver(), paziente.getCognomeCaregiver()));
-
-    }
-
 
     @Test
     public void testAssegnaCaregiver_emailNonValida() throws Exception {
-        paziente.setEmailCaregiver("mariocicalese@libero");
-        paziente.setNomeCaregiver("Mario");
-        paziente.setCognomeCaregiver("Cicalese");
+        // Mock per trovare il caregiver per email non valida
+        //Long idCaregiver = service.findUtenteByEmail("heartcare016gmail.com").getId();
 
-        Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            when(daoCaregiver.findByEmail("heartcare016gmail.com")).thenAnswer(invocationOnMock -> {
+                return Optional.ofNullable(null);
+            });
+
+        // Mock per trovare il paziente per id
+        when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
             return Optional.of(paziente);
         });
 
-        assertEquals(false,
-                service.assegnaCaregiver(paziente.getId(), paziente.getEmailCaregiver(), paziente.getNomeCaregiver(), paziente.getCognomeCaregiver()));}
+        paziente.setCaregiver(car);
+        car.getElencoPazienti().add(paziente);
+
+        // Verifica il risultato del metodo assegnare caregiver per email non valida
+        assertFalse(service.assegnaCaregiver(paziente.getId(), car.getId()));
+    }
+
 
 
         /**
@@ -189,11 +185,11 @@ public class GestioneUtenteServiceImplTest {
          */
         @Test
         public void testAssegnaPazienteCorretto () {
-            Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
                 return Optional.of(paz);
             });
 
-            Mockito.when(daoMedico.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            when(daoMedico.findById(anyLong())).thenAnswer(invocationOnMock -> {
                 return Optional.of(med);
             });
 
@@ -211,7 +207,7 @@ public class GestioneUtenteServiceImplTest {
          */
         @Test
         public void testAssegnaPazienteMedicoNonEsitente () {
-            Mockito.when(daoMedico.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            when(daoMedico.findById(anyLong())).thenAnswer(invocationOnMock -> {
                 return Optional.ofNullable(null);
             });
 
@@ -229,11 +225,11 @@ public class GestioneUtenteServiceImplTest {
          */
         @Test
         public void testAssegnaPazienteNonEsitente () {
-            Mockito.when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
                 return Optional.ofNullable(null);
             });
 
-            Mockito.when(daoMedico.findById(anyLong())).thenAnswer(invocationOnMock -> {
+            when(daoMedico.findById(anyLong())).thenAnswer(invocationOnMock -> {
                 return Optional.of(med);
             });
 
