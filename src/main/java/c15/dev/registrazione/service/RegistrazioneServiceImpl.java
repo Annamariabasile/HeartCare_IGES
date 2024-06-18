@@ -257,7 +257,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         }
 
         //il caregiver si registra quando qualcuno gli ha inviato la richiesta
-        gestioneUtenteService.assegnaCaregiver(idPaziente, caregiverDAO.findById(idCaregiver).get().getId());
+        gestioneUtenteService.assegnaCaregiver(idPaziente, caregiverDAO.findById(idCaregiver).get().getEmail());
 
         var jwtToken = jwtService.generateToken(caregiver);
         return AuthenticationResponse.builder()

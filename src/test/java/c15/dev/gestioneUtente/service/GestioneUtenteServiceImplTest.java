@@ -6,6 +6,7 @@ import c15.dev.HeartCareApplicationTests;
 import c15.dev.model.dao.AdminDAO;
 import c15.dev.model.dao.CaregiverDAO;
 import c15.dev.model.dao.PazienteDAO;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import c15.dev.model.dao.MedicoDAO;
 
@@ -130,8 +131,8 @@ public class GestioneUtenteServiceImplTest {
     @Test
     public void testAssegnaCaregiver() throws Exception {
         // Mock per trovare il caregiver per email corretta
-        /*when(daoCaregiver.findByEmail("heartcare016@gmail.com")).thenAnswer(invocationOnMock -> {
-            return Optional.of(car);
+        when(daoCaregiver.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return car;
         });
 
         when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
@@ -143,18 +144,12 @@ public class GestioneUtenteServiceImplTest {
             }
         });
 
-         */
-
-        System.out.println("pazienteProva: " + paz.getNome());
-        System.out.println("caregiverPROVA: " + car.getNome());
-
         paz.setCaregiver(car);
         car.getElencoPazienti().add(paz);
 
-        System.out.println("caregiverDopoAverAssegnato:" + paz.getCaregiver().getNome());
-
         // Verifica il risultato del metodo assegnare caregiver
-        assertEquals(true, service.assegnaCaregiver(paz.getId(), car.getId()));
+        boolean result = service.assegnaCaregiver(paz.getId(), car.getEmail());
+        assertEquals(true, result);
     }
 
     @Test
@@ -162,20 +157,25 @@ public class GestioneUtenteServiceImplTest {
         // Mock per trovare il caregiver per email non valida
         //Long idCaregiver = service.findUtenteByEmail("heartcare016gmail.com").getId();
 
-            when(daoCaregiver.findByEmail("heartcare016gmail.com")).thenAnswer(invocationOnMock -> {
-                return Optional.ofNullable(null);
-            });
+        when(daoCaregiver.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return null;
+        });
 
         // Mock per trovare il paziente per id
         when(pazienteDAO.findById(anyLong())).thenAnswer(invocationOnMock -> {
-            return Optional.of(paziente);
+            Long id = invocationOnMock.getArgument(0);
+            if (id.equals(paz.getId())) {
+                return Optional.of(paz);
+            } else {
+                return Optional.empty();
+            }
         });
 
         paziente.setCaregiver(car);
         car.getElencoPazienti().add(paziente);
 
         // Verifica il risultato del metodo assegnare caregiver per email non valida
-        assertFalse(service.assegnaCaregiver(paziente.getId(), car.getId()));
+        assertFalse(service.assegnaCaregiver(paz.getId(), car.getEmail()));
     }
 
 

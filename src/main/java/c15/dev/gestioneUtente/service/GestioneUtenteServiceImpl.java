@@ -93,22 +93,25 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
      * post Viene assegnato il caregiver.
      */
     @Override
-    public boolean assegnaCaregiver(final Long idPaziente, final Long idCaregiver) {
-        System.out.println("PAziente: " + idPaziente + " " + idCaregiver);
+    public boolean assegnaCaregiver(final Long idPaziente, final String emailCaregiver) {
         Optional<UtenteRegistrato> pz =  paziente.findById(idPaziente);
         System.out.println(pz.get().getNome());
         if (pz.isEmpty()) {
             System.out.println("vuoto");
             return false;
-        }else {
-            Paziente tmp = (Paziente) pz.get();
-            System.out.println("ciaone" + idCaregiver);
-            System.out.println("PROVA PROVA" + caregiver.findById(idCaregiver).get().getNome());
-            tmp.setCaregiver((Caregiver) caregiver.findById(idCaregiver).get());
-
-            paziente.save(tmp);
-            return true;
         }
+        if (caregiver.findByEmail(emailCaregiver) == null) {
+            System.out.println("vuoto");
+            return false;
+        }
+
+        Paziente tmp = (Paziente) pz.get();
+        Caregiver car = caregiver.findByEmail(emailCaregiver);
+        tmp.setCaregiver(car);
+
+        paziente.save(tmp);
+        return true;
+
     }
 
 
