@@ -142,6 +142,24 @@ public class RegistrazioneServiceImplTest {
                .token(jwtToken)
                .build(), this.rs.login(request));
    }
+
+    @Test
+    public void TestLoginCaregiver() throws Exception {
+        request = new AuthenticationRequest(
+                "Ciaone12345!",
+                "heartcare016@gmail.com"
+        );
+
+        when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
+        when(this.adminDAO.findByEmail(any())).thenReturn(null);
+        when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(car);
+
+        var jwtToken = jwtService.generateToken(car);
+        assertEquals(AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build(), this.rs.login(request));
+    }
     @Test
     public void TestLoginMedico() throws Exception {
         request = new AuthenticationRequest(
@@ -270,6 +288,8 @@ public class RegistrazioneServiceImplTest {
         Mockito.when(this.adminDAO.findByEmail(any())).thenReturn(null);
         Mockito.when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
         Mockito.when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        Mockito.when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
+
 
         assertEquals(AuthenticationResponse.builder().token(null).build(), registrazioneService.login(request));
 
@@ -302,6 +322,19 @@ public class RegistrazioneServiceImplTest {
         String password = request.getPassword();
         Mockito.when(this.pazienteDAO.findByEmail(any())).thenReturn(paziente);
         Mockito.when(this.pwdEncoder.matches(password, paziente.getPassword())).thenReturn(false);
+        assertEquals(AuthenticationResponse.builder().token(null).build(), registrazioneService.login(request));
+    }
+
+    @Test
+    public void TestLoginPasswordErrataCaregiver() throws Exception {
+        request = new AuthenticationRequest(
+                "Wpasswd9!%",
+                "heartcare016@gmail.com"
+        );
+
+        String password = request.getPassword();
+        Mockito.when(this.caregiverDAO.findByEmail(any())).thenReturn(car);
+        Mockito.when(this.pwdEncoder.matches(password, car.getPassword())).thenReturn(false);
         assertEquals(AuthenticationResponse.builder().token(null).build(), registrazioneService.login(request));
     }
 
