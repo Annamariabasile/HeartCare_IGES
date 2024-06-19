@@ -1,6 +1,7 @@
 package c15.dev;
 
 
+import c15.dev.gestioneComunicazione.service.GestioneComunicazioneServiceImplTest;
 import c15.dev.gestioneMisurazione.service.GestioneMisurazioneServiceImplTest;
 import c15.dev.gestioneUtente.service.GestioneUtenteServiceImplTest;
 import c15.dev.gestioneVisita.service.GestioneVisitaServiceImplTesting;
@@ -12,7 +13,8 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({GestioneVisitaServiceImplTesting.class,
                 GestioneUtenteServiceImplTest.class,
                 RegistrazioneServiceImplTest.class,
-                GestioneMisurazioneServiceImplTest.class})
+                GestioneMisurazioneServiceImplTest.class,
+                GestioneComunicazioneServiceImplTest.class})
 public class TestSuite {
 
 }
