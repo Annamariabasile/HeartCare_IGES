@@ -93,15 +93,13 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
      * post Viene assegnato il caregiver.
      */
     @Override
-    public boolean assegnaCaregiver(final Long idPaziente, final String emailCaregiver) {
+    public boolean assegnaCaregiver(Long idPaziente, String emailCaregiver) {
         Optional<UtenteRegistrato> pz =  paziente.findById(idPaziente);
         System.out.println(pz.get().getNome());
         if (pz.isEmpty()) {
-            System.out.println("vuoto");
             return false;
         }
         if (caregiver.findByEmail(emailCaregiver) == null) {
-            System.out.println("vuoto");
             return false;
         }
 
@@ -332,7 +330,7 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
      */
     @Override
     public boolean findUtenteByCf(final String codiceFiscale) {
-            Paziente u = paziente.findBycodiceFiscale(codiceFiscale);
+        Paziente u = paziente.findBycodiceFiscale(codiceFiscale);
 
         if (u == null) {
             return false;
@@ -380,7 +378,7 @@ public class GestioneUtenteServiceImpl implements GestioneUtenteService {
         if (u.isEmpty()) {
             return null;
         }
-         return u.get();
+        return u.get();
     }
 
     /**
