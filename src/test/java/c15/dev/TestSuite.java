@@ -5,7 +5,9 @@ import c15.dev.gestioneComunicazione.service.GestioneComunicazioneServiceImplTes
 import c15.dev.gestioneMisurazione.service.GestioneMisurazioneServiceImplTest;
 import c15.dev.gestioneUtente.service.GestioneUtenteServiceImplTest;
 import c15.dev.gestioneVisita.service.GestioneVisitaServiceImplTesting;
+import c15.dev.integrationTesting.gestioneComunicazione.GestioneComunicazioneServiceIntegrationTest;
 import c15.dev.integrationTesting.gestioneUtente.GestioneUtenteServiceIntegrationTest;
+import c15.dev.integrationTesting.registrazione.GestioneRegistrazioneServiceIntegrationTest;
 import c15.dev.registrazione.service.RegistrazioneServiceImplTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -16,6 +18,8 @@ import org.junit.platform.suite.api.Suite;
                 RegistrazioneServiceImplTest.class,
                 GestioneMisurazioneServiceImplTest.class,
                 GestioneUtenteServiceIntegrationTest.class,
+                GestioneRegistrazioneServiceIntegrationTest.class,
+                GestioneComunicazioneServiceIntegrationTest.class,
                 GestioneComunicazioneServiceImplTest.class})
 public class TestSuite {
 
