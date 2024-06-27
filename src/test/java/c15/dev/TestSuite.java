@@ -9,6 +9,9 @@ import c15.dev.integrationTesting.gestioneComunicazione.GestioneComunicazioneSer
 import c15.dev.integrationTesting.gestioneUtente.GestioneUtenteServiceIntegrationTest;
 import c15.dev.integrationTesting.registrazione.GestioneRegistrazioneServiceIntegrationTest;
 import c15.dev.registrazione.service.RegistrazioneServiceImplTest;
+import c15.dev.repositoryTesting.CaregiverDAOTest;
+import c15.dev.repositoryTesting.NotaDAOTest;
+import c15.dev.repositoryTesting.UtenteRegistratoDaoTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -20,7 +23,10 @@ import org.junit.platform.suite.api.Suite;
                 GestioneUtenteServiceIntegrationTest.class,
                 GestioneRegistrazioneServiceIntegrationTest.class,
                 GestioneComunicazioneServiceIntegrationTest.class,
-                GestioneComunicazioneServiceImplTest.class})
+                GestioneComunicazioneServiceImplTest.class,
+                CaregiverDAOTest.class,
+                NotaDAOTest.class,
+                UtenteRegistratoDaoTest.class})
 public class TestSuite {
 
 }
