@@ -87,7 +87,7 @@ function HomeCaregiver() {
     return  (
         <div className="contenitoreMainContent-Home">
             {
-                (utente["sesso"] === "M") ? <span className="testo-bentornat">Bentornato, Dr. {utente["cognome"]} 👋🏻</span> : <span className="testo-bentornat">Bentornata, Drs. {utente["cognome"]} 👋🏻</span>
+                (utente["sesso"] === "M") ? <span className="testo-bentornat">Bentornato, Caregiver {utente["cognome"]} 👋🏻</span> : <span className="testo-bentornat">Bentornata, Drs. {utente["cognome"]} 👋🏻</span>
             }
 
             <div className="full-container">

@@ -1,0 +1,88 @@
+{
+  "id": "78029797-17a8-4d93-802f-898b4120e713",
+  "version": "2.0",
+  "name": "VisualizzazioniPazientiCaregiver",
+  "url": "http://localhost:3000/HomeCaregiver",
+  "tests": [{
+    "id": "ecdeda0c-4560-414a-bce7-9a349d186ffe",
+    "name": "SystemTesting_VisualizzazioniPazientiDaCaregiver",
+    "commands": [{
+      "id": "67f77fc2-adea-4476-a4cd-d4709366b34c",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/HomeCaregiver",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c3879f0f-e08a-4021-8b29-889511cb7845",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "edfe36ac-c9ae-45eb-8097-d6197746cab7",
+      "comment": "",
+      "command": "click",
+      "target": "id=3",
+      "targets": [
+        ["id=3", "id"],
+        ["css=#\\33", "css:finder"],
+        ["xpath=//div[@id='3']", "xpath:attributes"],
+        ["xpath=//div[@id='menu-medico']/a[3]/div", "xpath:idRelative"],
+        ["xpath=//a[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9344b6b2-fa0f-444f-a345-4a6c96d1110d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cardPaziente:nth-child(2) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=.cardPaziente:nth-child(2) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div[2]/div[2]/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "42a4daa1-c340-42e9-8abe-034101207001",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(1) > .bloccoMisurazione > .contenitoreMisurazione",
+      "targets": [
+        ["css=div:nth-child(1) > .bloccoMisurazione > .contenitoreMisurazione", "css:finder"],
+        ["xpath=//div/div[2]/div/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "60daaf23-6375-4a41-809f-9fda09543420",
+      "comment": "",
+      "command": "click",
+      "target": "css=.contenitoreMisurazioni",
+      "targets": [
+        ["css=.contenitoreMisurazioni", "css:finder"],
+        ["xpath=//body/div[2]/div/div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "872a3f8a-5e4c-4df7-86c5-ce4c431a1d84",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton > svg",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton > svg", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "f416270b-a683-4df9-9934-4f42af368d35",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3000/HomeCaregiver"],
+  "plugins": []
+}

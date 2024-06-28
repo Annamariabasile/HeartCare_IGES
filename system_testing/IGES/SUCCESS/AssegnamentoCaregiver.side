@@ -1,0 +1,139 @@
+{
+  "id": "a6255f7f-d0ed-48cd-bd1e-a123efa55b62",
+  "version": "2.0",
+  "name": "HeartCare_IGES",
+  "url": "http://localhost:3000",
+  "tests": [{
+    "id": "f1410823-5ffc-4355-8fcf-4b61c6a188bb",
+    "name": "SystemTesting_AssegnamentoCaregiver",
+    "commands": [{
+      "id": "cc762346-a64a-4636-bbbe-2d1c323a50d6",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "289591eb-d5f0-4746-a6ea-f04715c27e23",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1470x920",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "60fb6913-7382-4b61-a4fd-480ccb6aebb9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formEditText:nth-child(1)",
+      "targets": [
+        ["css=.formEditText:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "260de540-d264-4a95-abbb-f529046b46f9",
+      "comment": "",
+      "command": "type",
+      "target": "css=.formEditText:nth-child(1)",
+      "targets": [
+        ["css=.formEditText:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "giuseppegiordano@libero.it"
+    }, {
+      "id": "d70bad3e-a201-4a90-b27a-7559bf5bfc92",
+      "comment": "",
+      "command": "type",
+      "target": "css=.formEditText:nth-child(2)",
+      "targets": [
+        ["css=.formEditText:nth-child(2)", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "Wpasswd1!%"
+    }, {
+      "id": "4c816571-bb64-4079-983c-0106d99fe916",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formButton",
+      "targets": [
+        ["css=.formButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3c6bb400-4c3b-4dcd-9aa8-c9cd700d833a",
+      "comment": "",
+      "command": "click",
+      "target": "css=#\\34 > span",
+      "targets": [
+        ["css=#\\34 > span", "css:finder"],
+        ["xpath=//div[@id='4']/span", "xpath:idRelative"],
+        ["xpath=//a[4]/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Profilo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8bdf1003-8f7d-4b4f-b675-a75b5398c7a2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.contenitoreForm-infoCaregiver > .formEditText",
+      "targets": [
+        ["css=.contenitoreForm-infoCaregiver > .formEditText", "css:finder"],
+        ["xpath=(//input[@type='text'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div[2]/div[3]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bcca8ae9-5404-4a0a-ba56-85ec3ec9a1d7",
+      "comment": "",
+      "command": "type",
+      "target": "css=.contenitoreForm-infoCaregiver > .formEditText",
+      "targets": [
+        ["css=.contenitoreForm-infoCaregiver > .formEditText", "css:finder"],
+        ["xpath=(//input[@type='text'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div[2]/div[3]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/input", "xpath:position"]
+      ],
+      "value": "zoccolaaless@gmail.com"
+    }, {
+      "id": "f7471296-8a5d-433f-9553-df7b8a567db4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formButton:nth-child(4)",
+      "targets": [
+        ["css=.formButton:nth-child(4)", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div[3]/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6cbb5472-4317-49b7-a34c-b012b7025f13",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton > svg",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton > svg", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "f22033a5-5c36-4c97-b6ba-fcd21189a9f1",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["f1410823-5ffc-4355-8fcf-4b61c6a188bb"]
+  }],
+  "urls": ["http://localhost:3000/"],
+  "plugins": []
+}

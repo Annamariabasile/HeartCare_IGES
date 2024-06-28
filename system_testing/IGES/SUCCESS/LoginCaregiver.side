@@ -1,0 +1,116 @@
+{
+  "id": "9a8ccdbd-c482-484b-a223-d4061fb94041",
+  "version": "2.0",
+  "name": "LoginCaregiver",
+  "url": "http://localhost:3000",
+  "tests": [{
+    "id": "8d1d4b17-6df0-4318-84cf-bbb3632ed1df",
+    "name": "SystemTesting_LoginCaregiver",
+    "commands": [{
+      "id": "74352d34-518d-44da-8c20-15c15caab795",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c766f54c-4988-4bb1-86f2-6cd518d30bfb",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e969fc81-a536-46be-a4a1-05787b7b1b51",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formEditText:nth-child(1)",
+      "targets": [
+        ["css=.formEditText:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ece0ae6f-ed70-4aaf-bc4d-9f125aedad73",
+      "comment": "",
+      "command": "type",
+      "target": "css=.formEditText:nth-child(1)",
+      "targets": [
+        ["css=.formEditText:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "zoccolaaless@gmail.com"
+    }, {
+      "id": "cfbc8a57-2f2a-45c0-8e1c-2a24517a6539",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formEditText:nth-child(2)",
+      "targets": [
+        ["css=.formEditText:nth-child(2)", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b7d8a521-840d-467e-bb6b-d30c48f1454b",
+      "comment": "",
+      "command": "type",
+      "target": "css=.formEditText:nth-child(2)",
+      "targets": [
+        ["css=.formEditText:nth-child(2)", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "Wpasswd1!%"
+    }, {
+      "id": "ff4f21cc-84bf-48e2-9ba8-7dfe6e82c62f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formButton",
+      "targets": [
+        ["css=.formButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fcc7c04b-510d-443e-ab19-a4ca816ef8e1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8757a10-a7a8-4da2-89bd-336ce5eba07f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton path",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton path", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "df1dc7bb-81c0-4206-8eab-53acb8161d01",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3000/"],
+  "plugins": []
+}

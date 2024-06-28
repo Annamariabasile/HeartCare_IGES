@@ -1,0 +1,122 @@
+{
+  "id": "e780d998-50b9-448e-b47b-e60515a12b65",
+  "version": "2.0",
+  "name": "InvioNotaCaregiver",
+  "url": "http://localhost:3000/HomeCaregiver",
+  "tests": [{
+    "id": "bdd50353-ab75-4208-a42e-35f7152adf61",
+    "name": "SystemTesting_InvioNotaCaregiver",
+    "commands": [{
+      "id": "955628ff-3783-4387-939f-a57efaa08d23",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/HomeCaregiver",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7b642802-0e63-436d-9a7f-f9780bf463e5",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c802f057-dfc0-4b2e-8c33-16020ade0b7c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.icona-aggiunta-nota > path:nth-child(1)",
+      "targets": [
+        ["css=.icona-aggiunta-nota > path:nth-child(1)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "b230467f-011a-4831-b450-0a7a55906d74",
+      "comment": "",
+      "command": "click",
+      "target": "css=.textAreaTestoNote",
+      "targets": [
+        ["css=.textAreaTestoNote", "css:finder"],
+        ["xpath=//textarea[@type='text']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4f1a7979-00fd-4146-b368-321554970cd3",
+      "comment": "",
+      "command": "type",
+      "target": "css=.textAreaTestoNote",
+      "targets": [
+        ["css=.textAreaTestoNote", "css:finder"],
+        ["xpath=//textarea[@type='text']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Salve dottore, come sta il mio paziente?"
+    }, {
+      "id": "923861d4-8c18-4f58-a434-1d41ff2728cb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.bottoneInviaNota",
+      "targets": [
+        ["css=.bottoneInviaNota", "css:finder"],
+        ["xpath=//div[2]/div/div[2]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Invia nota')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "86aa7b58-da20-4ea0-a563-11328b0edd3e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0640276-be1c-4ebb-a6c9-8345dd35265a",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8c72cd9d-543f-46a3-8d7c-6d136ec2f6f6",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=.cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2ebea7b-77e0-4340-9af2-856d85ab1020",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton path",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton path", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "8d92f5e8-a05f-4f88-af22-2d05d6fb7f26",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3000/HomeCaregiver"],
+  "plugins": []
+}
