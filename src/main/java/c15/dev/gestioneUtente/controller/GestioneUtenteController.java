@@ -586,10 +586,10 @@ public class GestioneUtenteController {
             }
         } else {
             // il caregiver non è registrato
-            //Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
+            Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
             if (service.assegnaCaregiver(idPaziente,emailNuovoCaregiver)) {
-                Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
-                String messaggio = "http://localhost:3000/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
+                //Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
+                String messaggio = "Benvenuto/a in HeartCare, Clicca qui per registrarti come nuovo caregiver http://localhost:3000/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
                 String oggetto = "Hai un nuovo caregiver";
                 gestioneComunicazioneService.invioEmailRegistrazioneCaregiver(messaggio, oggetto, p.getCaregiver().getEmail(), idPaziente, idNuovoCaregiver);
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){
