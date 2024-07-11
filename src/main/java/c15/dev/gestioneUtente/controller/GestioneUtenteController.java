@@ -62,8 +62,9 @@ public class GestioneUtenteController {
 
     @RequestMapping(value = "/assegnaCaregiver", method = RequestMethod.POST)
     public void assegnaCaregiver(@RequestParam final Long idPaziente, @RequestParam final Long idCaregiver) {
+        Caregiver c = service.findCaregiverById(idCaregiver);
         if (service.isPaziente(idPaziente) && (service.isCaregiver(idCaregiver) || service.isCaregiverNonRegistrato(idCaregiver))) {
-            service.assegnaCaregiver(idPaziente, idCaregiver);
+            service.assegnaCaregiver(idPaziente, c.getEmail());
         }
     }
 
@@ -573,8 +574,8 @@ public class GestioneUtenteController {
         // verifico se il nuovo caregiver è già registrato
         if(service.getTuttiCaregiver().stream().map(caregiver -> caregiver.getEmail()).toList().contains(emailNuovoCaregiver)){
             // il caregiver è già registrato
-            Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
-            if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
+            //Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
+            if (service.assegnaCaregiver(idPaziente,emailNuovoCaregiver)) {
                 String nomePaziente = service.findPazienteById(idPaziente).getNome() + " " + service.findPazienteById(idPaziente).getCognome();
                 String messaggio = "Il paziente " +nomePaziente+ " è stato aggiunto alla lista dei tuoi pazienti.";
                 gestioneComunicazioneService.invioEmail(messaggio, "Hai un nuovo paziente", p.getCaregiver().getEmail());
@@ -586,8 +587,9 @@ public class GestioneUtenteController {
         } else {
             // il caregiver non è registrato
             Long idNuovoCaregiver = service.generaNuovoCaregiverNonRegistrato(emailNuovoCaregiver);
-            if (service.assegnaCaregiver(idPaziente,idNuovoCaregiver)) {
-                String messaggio = "http://localhost:3000/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
+            if (service.assegnaCaregiver(idPaziente,emailNuovoCaregiver)) {
+                //Long idNuovoCaregiver = service.findUtenteByEmail(emailNuovoCaregiver).getId();
+                String messaggio = "Benvenuto/a in HeartCare, Clicca qui per registrarti come nuovo caregiver http://localhost:3000/registrazioneCaregiver?idPaziente="+idPaziente+"&idCaregiver="+idNuovoCaregiver;
                 String oggetto = "Hai un nuovo caregiver";
                 gestioneComunicazioneService.invioEmailRegistrazioneCaregiver(messaggio, oggetto, p.getCaregiver().getEmail(), idPaziente, idNuovoCaregiver);
                 if(vecchioCaregiver.getElencoPazienti().isEmpty()){

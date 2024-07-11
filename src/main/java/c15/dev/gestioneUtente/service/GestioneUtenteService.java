@@ -24,7 +24,7 @@ public interface GestioneUtenteService {
      */
 
     //modifiche al metodo
-    boolean assegnaCaregiver(Long idPaziente, Long idCaregiver);
+    boolean assegnaCaregiver(Long idPaziente, String emailCaregiver);
 
     /**
      * Firma del metodo rimuoviMedico.

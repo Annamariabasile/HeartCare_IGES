@@ -35,7 +35,7 @@ public interface GestioneComunicazioneService {
      * @param idDestinatario id del destinatario della nota.
      * @param idMittente id del mittente della nota.
      */
-    void invioNota(String messaggio,
+    boolean invioNota(String messaggio,
                    Long idDestinatario,
                    Long idMittente,
                    Long idAutore);

@@ -62,6 +62,6 @@ public interface RegistrazioneService {
     AuthenticationResponse registraAdmin(Admin admin)
             throws Exception;
 
-    AuthenticationResponse registraCaregiver(Caregiver caregiver, Long idPaziente)
+    AuthenticationResponse registraCaregiver(Caregiver caregiver, Long idPaziente, String confermaPassword)
             throws Exception;
 }

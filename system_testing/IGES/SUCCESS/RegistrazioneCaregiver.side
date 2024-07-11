@@ -1,0 +1,259 @@
+{
+  "id": "65e07aa5-a015-442f-95b7-761c5a9fb9fc",
+  "version": "2.0",
+  "name": "RegistrazioneCaregiver",
+  "url": "http://localhost:3000/registrazioneCaregiver?idPaziente=1&idCaregiver=75",
+  "tests": [{
+    "id": "4c5bad52-1e74-4b7d-abf0-1916f9fe534b",
+    "name": "SystemTesting_RegistrazioneCaregiver",
+    "commands": [{
+      "id": "dee8522a-618b-49b7-b70c-d7079ab7efba",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/registrazioneCaregiver?idPaziente=1&idCaregiver=75",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "569e062b-4a82-42d6-acee-c103fb809487",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dfa0d761-3df9-4f2f-b7f8-62dad2213b1a",
+      "comment": "",
+      "command": "click",
+      "target": "name=nome",
+      "targets": [
+        ["name=nome", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(2) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='nome']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d23cbdd-5a67-47e9-9e8c-52f0316411f1",
+      "comment": "",
+      "command": "type",
+      "target": "name=nome",
+      "targets": [
+        ["name=nome", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(2) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='nome']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Alessandro"
+    }, {
+      "id": "0ef80489-472c-4540-942b-e8cf12a889ac",
+      "comment": "",
+      "command": "type",
+      "target": "name=cognome",
+      "targets": [
+        ["name=cognome", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(3) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='cognome']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Zoccola"
+    }, {
+      "id": "0f8025df-b468-4a3c-a49b-a271972be649",
+      "comment": "",
+      "command": "click",
+      "target": "name=numeroTelefono",
+      "targets": [
+        ["name=numeroTelefono", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(4) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='numeroTelefono']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b1a86f6d-c8e8-4b5a-bacb-5988a2406c88",
+      "comment": "",
+      "command": "type",
+      "target": "name=numeroTelefono",
+      "targets": [
+        ["name=numeroTelefono", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(4) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='numeroTelefono']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "+393272349622"
+    }, {
+      "id": "53cd28ab-5f6d-4d38-acb5-7764809c1e27",
+      "comment": "",
+      "command": "click",
+      "target": "name=genere",
+      "targets": [
+        ["name=genere", "name"],
+        ["css=.contenitoreEditTextCortissima > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='genere']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b379f051-4955-479e-80c0-a2af37eb6dff",
+      "comment": "",
+      "command": "type",
+      "target": "name=genere",
+      "targets": [
+        ["name=genere", "name"],
+        ["css=.contenitoreEditTextCortissima > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='genere']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "M"
+    }, {
+      "id": "9d3e9663-f41d-47b5-9e96-13b367c74d5e",
+      "comment": "",
+      "command": "click",
+      "target": "name=dataDiNascita",
+      "targets": [
+        ["name=dataDiNascita", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(6) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='dataDiNascita']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b663a88-05fb-4071-a37b-428c8e232da4",
+      "comment": "",
+      "command": "click",
+      "target": "name=dataDiNascita",
+      "targets": [
+        ["name=dataDiNascita", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(6) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='dataDiNascita']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "644d0280-35d2-497c-bb2b-d3492a1f9e65",
+      "comment": "",
+      "command": "type",
+      "target": "name=dataDiNascita",
+      "targets": [
+        ["name=dataDiNascita", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(6) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='dataDiNascita']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "2001-07-05"
+    }, {
+      "id": "5e88897d-7c84-44b2-8b9d-6944b9241643",
+      "comment": "",
+      "command": "click",
+      "target": "id=codiceFiscale",
+      "targets": [
+        ["id=codiceFiscale", "id"],
+        ["name=codiceFiscale", "name"],
+        ["css=#codiceFiscale", "css:finder"],
+        ["xpath=//input[@id='codiceFiscale']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[6]/input", "xpath:idRelative"],
+        ["xpath=//div[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "673b49da-a153-47cf-a6ed-eca0a60c8be8",
+      "comment": "",
+      "command": "type",
+      "target": "id=codiceFiscale",
+      "targets": [
+        ["id=codiceFiscale", "id"],
+        ["name=codiceFiscale", "name"],
+        ["css=#codiceFiscale", "css:finder"],
+        ["xpath=//input[@id='codiceFiscale']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[6]/input", "xpath:idRelative"],
+        ["xpath=//div[6]/input", "xpath:position"]
+      ],
+      "value": "ZCCLSN01L05H703M"
+    }, {
+      "id": "7385ea3f-1838-46b6-ab92-c1aca8c2bc13",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[8]/input", "xpath:idRelative"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d25b6463-843b-4318-879c-03dde05735ae",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[8]/input", "xpath:idRelative"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": "Wpasswd1!%"
+    }, {
+      "id": "7ab691d1-7444-4e61-a3dc-d9afe21ebccb",
+      "comment": "",
+      "command": "click",
+      "target": "name=confermaPassword",
+      "targets": [
+        ["name=confermaPassword", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(10) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='confermaPassword']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[9]/input", "xpath:idRelative"],
+        ["xpath=//div[9]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce300f34-84cd-40a4-9fd8-f8723c36abb7",
+      "comment": "",
+      "command": "type",
+      "target": "name=confermaPassword",
+      "targets": [
+        ["name=confermaPassword", "name"],
+        ["css=.contenitoreEditTextCorta:nth-child(10) > .registrazioneEditText", "css:finder"],
+        ["xpath=//input[@name='confermaPassword']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[9]/input", "xpath:idRelative"],
+        ["xpath=//div[9]/input", "xpath:position"]
+      ],
+      "value": "Wpasswd1!%"
+    }, {
+      "id": "40bdb9d7-f7a9-4bea-87bf-8536b5c89c29",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formButton",
+      "targets": [
+        ["css=.formButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Registrati')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "846756a2-977b-4b71-b6a9-7ad66612fb71",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["4c5bad52-1e74-4b7d-abf0-1916f9fe534b"]
+  }],
+  "urls": ["http://localhost:3000/registrazioneCaregiver?idPaziente=1&idCaregiver=75"],
+  "plugins": []
+}

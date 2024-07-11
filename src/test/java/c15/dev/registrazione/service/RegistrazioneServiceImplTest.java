@@ -2,14 +2,10 @@ package c15.dev.registrazione.service;
 
 import c15.dev.HeartCareApplication;
 import c15.dev.HeartCareApplicationTests;
-import c15.dev.model.dao.AdminDAO;
-import c15.dev.model.dao.MedicoDAO;
-import c15.dev.model.dao.PazienteDAO;
-import c15.dev.model.dao.UtenteRegistratoDAO;
-import c15.dev.model.entity.Admin;
-import c15.dev.model.entity.Indirizzo;
-import c15.dev.model.entity.Medico;
-import c15.dev.model.entity.Paziente;
+import c15.dev.gestioneUtente.service.GestioneUtenteService;
+import c15.dev.gestioneUtente.service.GestioneUtenteServiceImpl;
+import c15.dev.model.dao.*;
+import c15.dev.model.entity.*;
 import c15.dev.utils.AuthenticationRequest;
 import c15.dev.utils.AuthenticationResponse;
 import c15.dev.utils.JwtService;
@@ -29,11 +25,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -43,6 +39,9 @@ public class RegistrazioneServiceImplTest {
 
     @InjectMocks
     RegistrazioneServiceImpl registrazioneService;
+
+    @Mock
+    GestioneUtenteService gestioneUtenteService;
 
     @InjectMocks
     private RegistrazioneServiceImpl rs;
@@ -60,7 +59,7 @@ public class RegistrazioneServiceImplTest {
     private AuthenticationRequest request;
 
     @Mock
-   private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     /**
      * Provvede alla criptazione della password.
@@ -81,6 +80,10 @@ public class RegistrazioneServiceImplTest {
 
     private Medico med1;
 
+    private Caregiver car;
+    @Mock
+    private CaregiverDAO caregiverDAO;
+
     private Admin a1;
 
     @BeforeEach
@@ -98,7 +101,7 @@ public class RegistrazioneServiceImplTest {
         );
         confermaPassword = "Wpasswd1!%";
 
-         med1 = new Medico(LocalDate.of(2000, 11, 18),
+        med1 = new Medico(LocalDate.of(2000, 11, 18),
                 "PDSLPD00E19C139A",
                 "+393809123300",
                 "Apasswd1!%",
@@ -107,7 +110,7 @@ public class RegistrazioneServiceImplTest {
                 "Zoccola",
                 "M");
 
-          a1 = new Admin(LocalDate.of(2000, 11, 18),
+        a1 = new Admin(LocalDate.of(2000, 11, 18),
                 "PDSLPD08E18C129Q",
                 "+393887124110",
                 "Wpasswd1!%",
@@ -115,6 +118,15 @@ public class RegistrazioneServiceImplTest {
                 "Fabiola",
                 "Valorant",
                 "F");
+        car = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Ciaone12345!",
+                "heartcare016@gmail.com",
+                "Annamaria",
+                "Basile",
+                "F"
+        );
 
     }
 
@@ -126,14 +138,16 @@ public class RegistrazioneServiceImplTest {
         );
 
         when(this.pazienteDAO.findByEmail(any())).thenReturn(paziente);
-       when(this.adminDAO.findByEmail(any())).thenReturn(null);
-       when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        when(this.adminDAO.findByEmail(any())).thenReturn(null);
+        when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
 
-       var jwtToken = jwtService.generateToken(paziente);
+        var jwtToken = jwtService.generateToken(paziente);
         assertEquals(AuthenticationResponse.builder()
-               .token(jwtToken)
-               .build(), this.rs.login(request));
-   }
+                .token(jwtToken)
+                .build(), this.rs.login(request));
+    }
+
     @Test
     public void TestLoginMedico() throws Exception {
         request = new AuthenticationRequest(
@@ -144,6 +158,8 @@ public class RegistrazioneServiceImplTest {
         when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
         when(this.adminDAO.findByEmail(any())).thenReturn(null);
         when(this.medicoDAO.findByEmail(any())).thenReturn(med1);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
+
 
         var jwtToken = jwtService.generateToken(med1);
         assertEquals(AuthenticationResponse.builder()
@@ -161,6 +177,8 @@ public class RegistrazioneServiceImplTest {
         when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
         when(this.adminDAO.findByEmail(any())).thenReturn(a1);
         when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
+
 
         var jwtToken = jwtService.generateToken(a1);
         assertEquals(AuthenticationResponse.builder()
@@ -258,6 +276,8 @@ public class RegistrazioneServiceImplTest {
         Mockito.when(this.adminDAO.findByEmail(any())).thenReturn(null);
         Mockito.when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
         Mockito.when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        Mockito.when(this.caregiverDAO.findByEmail(any())).thenReturn(null);
+
 
         assertEquals(AuthenticationResponse.builder().token(null).build(), registrazioneService.login(request));
 
@@ -305,5 +325,239 @@ public class RegistrazioneServiceImplTest {
         Mockito.when(this.pwdEncoder.matches(password, med1.getPassword())).thenReturn(false);
         assertEquals(AuthenticationResponse.builder().token(null).build(), registrazioneService.login(request));
     }
+
+    @Test
+    public void TestLoginCaregiver() throws Exception {
+        request = new AuthenticationRequest(
+                "Ciaone12345!",
+                "heartcare016@gmail.com"
+        );
+
+        when(this.pazienteDAO.findByEmail(any())).thenReturn(null);
+        when(this.adminDAO.findByEmail(any())).thenReturn(null);
+        when(this.medicoDAO.findByEmail(any())).thenReturn(null);
+        when(this.caregiverDAO.findByEmail(any())).thenReturn(car);
+
+        var jwtToken = jwtService.generateToken(car);
+        assertEquals(AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build(), this.rs.login(request));
+    }
+    @Test
+    public void TestLoginPasswordErrataCaregiver() throws Exception {
+        request = new AuthenticationRequest(
+                "Wpasswd9!%",
+                "heartcare016@gmail.com"
+        );
+
+        String password = request.getPassword();
+        Mockito.when(this.caregiverDAO.findByEmail(any())).thenReturn(car);
+        Mockito.when(this.pwdEncoder.matches(password, car.getPassword())).thenReturn(false);
+        assertEquals(AuthenticationResponse.builder().token(null).build(), registrazioneService.login(request));
+    }
+
+    @Test
+    public void registraCaregiver()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Ciaone12345!",
+                "heartcare016@gmail.com",
+                "Annamaria",
+                "Basile",
+                "F"
+        );
+        savedCaregiver.setId(1L);
+
+        String token = jwtService.generateToken(car);
+        when(caregiverDAO.save(car)).thenReturn(savedCaregiver);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return car;
+        });
+
+        when(gestioneUtenteService.assegnaCaregiver(anyLong(), anyString())).thenAnswer(invocationOnMock -> {
+            return true;
+        });
+
+        assertEquals(AuthenticationResponse.builder()
+                .token(token)
+                .build(), this.registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Ciaone12345!"));
+    }
+
+    @Test
+    public void registraCaregiverNomeMancante()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Ciaone12345!",
+                "heartcare016@gmail.com",
+                "",
+                "Basile",
+                "F"
+        );
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Ciaone12345!"));
+    }
+
+    @Test
+    public void registraCaregiverCognomeMancante()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Ciaone12345!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "",
+                "F"
+        );
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Ciaone12345!"));
+    }
+
+    @Test
+    public void registraCaregiverTelefonoNonRispettaFormato()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Wpasswd1%!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "F"
+        );
+
+        savedCaregiver.setNumeroTelefono("1234");
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Wpasswd1%!"));
+    }
+
+    @Test
+    public void registraCaregiverCFNonRispettaFormato()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Wpasswd1%!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "F"
+        );
+
+        savedCaregiver.setCodiceFiscale("1234");
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(), "Wpasswd1%!"));
+    }
+
+    @Test
+    public void registraCaregiverDataNonValida()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Wpasswd1%!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "F"
+        );
+
+        LocalDate dataFutura = LocalDate.of(2025, 6, 20);
+        savedCaregiver.setDataDiNascita(dataFutura);
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Wpasswd1%!"));
+    }
+
+    @Test
+    public void registraCaregiverGenereNonValido()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Wpasswd1%!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "F"
+        );
+
+        savedCaregiver.setGenere("V");
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Wpasswd1%!"));
+    }
+
+    @Test
+    public void registraCaregiverPasswordNonValida()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Wpasswd1%!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "F"
+        );
+
+        savedCaregiver.setPassword("V1111");
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"Wpasswd1%!"));
+    }
+
+    @Test
+    public void registraCaregiverPasswordNonCombaciano()
+            throws Exception {
+        Caregiver savedCaregiver = new Caregiver(LocalDate.of(2000, 11, 18),
+                "VLSPCR01L12I234V",
+                "+393242345619",
+                "Wpasswd1%!",
+                "heartcare016@gmail.com",
+                "Alessandro",
+                "Basile",
+                "F"
+        );
+        savedCaregiver.setId(1L);
+        when(caregiverDAO.findByEmail(anyString())).thenAnswer(invocationOnMock -> {
+            return savedCaregiver;
+        });
+
+        assertThrows(Exception.class, () -> registrazioneService.registraCaregiver(savedCaregiver,anyLong(),"bla_bla_bla"));
+    }
+
+
+
+
 }
 

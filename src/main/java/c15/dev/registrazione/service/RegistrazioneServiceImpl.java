@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 
@@ -41,9 +42,9 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     @Autowired
     private IndirizzoDAO indirizzoDAO;
 
-        /**
-         * Provvede alle operazioni del db legate al medico.
-         */
+    /**
+     * Provvede alle operazioni del db legate al medico.
+     */
     @Autowired
     private MedicoDAO medicoDAO;
 
@@ -90,7 +91,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     public AuthenticationResponse registraPaziente(@Valid final Paziente paz,
                                                    final String
                                                            confermaPassword)
-                                                    throws Exception {
+            throws Exception {
 
         if (paz == null) {
             throw new IllegalArgumentException("Paziente non valido");
@@ -104,7 +105,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         if (!(password.matches(
                 "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])"
                         +
-                "[A-Za-z\\d@$!%*?&]{8,16}$"))) {
+                        "[A-Za-z\\d@$!%*?&]{8,16}$"))) {
             throw new IllegalArgumentException(
                     "La password non rispetta il giusto formato"
             );
@@ -140,7 +141,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     @Override
     public AuthenticationResponse registraMedico(final Medico med)
-                                                            throws Exception {
+            throws Exception {
         med.setPassword(pwdEncoder.encode(med.getPassword()));
         Long id = pazienteDAO.save(med).getId();
         //TODO TOGLIERE PAZIENTEDAO E METTERE MEDICODAO
@@ -175,12 +176,12 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     @Override
     public AuthenticationResponse login(final AuthenticationRequest request)
-                                                            throws Exception {
+            throws Exception {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()
-        ));
+                        request.getEmail(),
+                        request.getPassword()
+                ));
         var user = pazienteDAO.findByEmail(request.getEmail());
         Medico medico = null;
         if (user == null) {
@@ -234,13 +235,41 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     @Override
-    public AuthenticationResponse registraCaregiver(Caregiver caregiver, Long idPaziente) throws Exception {
+    public AuthenticationResponse registraCaregiver(Caregiver caregiver, Long idPaziente, String confermaPassword) throws Exception {
         Long idCaregiver = 0L;
-        caregiver.setPassword(pwdEncoder.encode(caregiver.getPassword()));
+
         // controllo se esiste già nel db il caregiver con l'email associata
         Caregiver caregiverNonRegistrato = caregiverDAO.findByEmail(caregiver.getEmail());
         // se esiste, è un caregiver_non_registrato oppure esiste già qualcuno con quella email.
         if(caregiverNonRegistrato != null){
+            if (caregiver.getNome().equals("") || caregiver.getCognome().equals("") ) {
+                throw new Exception("Campi non corretti.");
+            }
+            if(!caregiver.getNumeroTelefono().matches("^((00|\\+)39[\\. ]??)??3\\d{2}[\\. ]??\\d{6,7}$")){
+                throw new Exception("Numero non corretto");
+            }
+
+            if(!caregiver.getCodiceFiscale().matches("^[A-Z]{6}[A-Z0-9]{2}[A-Z][A-Z0-9]{2}[A-Z][A-Z0-9]{3}[A-Z]$")){
+                throw new Exception("CF non corretto");
+            }
+
+            if(caregiver.getDataDiNascita().isAfter(LocalDate.now())){
+                throw new Exception("Data non valida");
+            }
+
+            if(!(caregiver.getGenere().equals("M") || caregiver.getGenere().equals("F"))){
+                throw new Exception("Genere non valido");
+            }
+
+            if(!caregiver.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])"+"[A-Za-z\\d@$!%*?&]{8,16}$")){
+                throw new Exception("Password non valida");
+            }
+
+            if(!caregiver.getPassword().equals(confermaPassword)){
+                throw new Exception("Password non combacianti");
+            }
+
+            caregiver.setPassword(pwdEncoder.encode(caregiver.getPassword()));
             if(caregiverNonRegistrato.getRuolo() == Role.CAREGIVER_NON_REGISTRATO){
                 caregiverNonRegistrato.setNome(caregiver.getNome());
                 caregiverNonRegistrato.setCognome(caregiver.getCognome());
@@ -250,14 +279,14 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
                 caregiverNonRegistrato.setDataDiNascita(caregiver.getDataDiNascita());
                 caregiverNonRegistrato.setGenere(caregiver.getGenere());
                 caregiverNonRegistrato.setRuolo(Role.CAREGIVER);
-                idCaregiver = caregiverDAO.save(caregiverNonRegistrato).getId();
+                caregiver = caregiverDAO.save(caregiverNonRegistrato);
             }
         }else {
-            idCaregiver = caregiverDAO.save(caregiver).getId();
+            caregiver = caregiverDAO.save(caregiver);
         }
 
         //il caregiver si registra quando qualcuno gli ha inviato la richiesta
-        gestioneUtenteService.assegnaCaregiver(idPaziente, caregiverDAO.findById(idCaregiver).get().getId());
+        gestioneUtenteService.assegnaCaregiver(idPaziente, caregiver.getEmail());
 
         var jwtToken = jwtService.generateToken(caregiver);
         return AuthenticationResponse.builder()

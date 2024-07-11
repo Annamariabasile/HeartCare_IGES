@@ -58,7 +58,7 @@ public class RegistrazioneController {
      * @return response.
      */
     @PostMapping(value = "/registrazione")
-        public AuthenticationResponse registrazione(@RequestBody @Valid final HashMap<String, String> paziente) throws Exception {
+    public AuthenticationResponse registrazione(@RequestBody @Valid final HashMap<String, String> paziente) throws Exception {
         System.out.println(paziente);
         String nome = paziente.get("nome");
         String cognome = paziente.get("cognome");
@@ -124,6 +124,7 @@ public class RegistrazioneController {
         String nome = caregiver.get("nome");
         String cognome = caregiver.get("cognome");
         String password = caregiver.get("password");
+        String confermaPassword = caregiver.get("confermaPassword");
         String email = caregiver.get("email");
         String numero =  caregiver.get("numeroTelefono");
         String genere = caregiver.get("genere");
@@ -139,7 +140,7 @@ public class RegistrazioneController {
 
         // TODO: nella richiesta inviare anche l'id del paziente a cui associare il caregiver
         // TODO: effettuare associazione tra caregiver e paziente
-        return registrazioneService.registraCaregiver(c,idPaziente);
+        return registrazioneService.registraCaregiver(c,idPaziente, confermaPassword);
     }
 
     /**
@@ -149,8 +150,8 @@ public class RegistrazioneController {
      */
     @PostMapping(value = "/login")
     public AuthenticationResponse login(@RequestBody
-                                            final AuthenticationRequest req)
-                                                            throws Exception {
+                                        final AuthenticationRequest req)
+            throws Exception {
         return registrazioneService.login(req);
     }
 
@@ -175,8 +176,8 @@ public class RegistrazioneController {
      */
     @PostMapping(value = "/getByCodice")
     public ResponseEntity<Object> getByCodice(@RequestBody
-                                                 final HashMap<String, String>
-                                                          codiceFiscale) {
+                                              final HashMap<String, String>
+                                                      codiceFiscale) {
         String codice = codiceFiscale.get("codiceFiscale");
 
         boolean approva = utenteService.findUtenteByCf(codice);
@@ -189,8 +190,8 @@ public class RegistrazioneController {
      */
     @PostMapping(value = "/getByEmail")
     public ResponseEntity<Object> getByEmail(@RequestBody
-                                                 final HashMap<String, String>
-                                                         email) {
+                                             final HashMap<String, String>
+                                                     email) {
         String mail = email.get("email");
 
         boolean approva = utenteService.checkByEmail(mail);

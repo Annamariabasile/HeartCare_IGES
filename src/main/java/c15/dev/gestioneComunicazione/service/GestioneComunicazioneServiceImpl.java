@@ -97,25 +97,46 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
      * @param idMittente id del mittente della mail.
      */
     @Override
-    public void invioNota(final String messaggio,
+    public boolean invioNota(final String messaggio,
                           final Long idDestinatario,
                           final Long idMittente,
                           final Long idAutore) {
 
+        if(idMittente == null || idDestinatario == null){
+            return false;
+        } else if(messaggio.equals("")){
+            return false;
+        } else {
+            if (utenteService.isMedico(idAutore)) {
 
-        if (utenteService.isMedico(idAutore)) {
+                Medico m =  utenteService.findMedicoById(idMittente);
+                Paziente p = utenteService.findPazienteById(idDestinatario);
+                Nota nota = new Nota(messaggio,
+                        LocalDate.now(),
+                        idMittente,
+                        StatoNota.NON_LETTA,
+                        m,
+                        p);
+                notaDAO.save(nota);
+                return true;
+            } else if(utenteService.isPaziente(idAutore)){
 
-            Medico m =  utenteService.findMedicoById(idMittente);
-            Paziente p = utenteService.findPazienteById(idDestinatario);
-            Nota nota = new Nota(messaggio,
-                    LocalDate.now(),
-                    idMittente,
-                    StatoNota.NON_LETTA,
-                    m,
-                    p);
-            notaDAO.save(nota);
-            return;
-        } else if(utenteService.isPaziente(idAutore)){
+                Medico m = (Medico) utenteService.findMedicoById(idDestinatario);
+                Paziente p = (Paziente) utenteService.findPazienteById(idMittente);
+
+                Nota nota =
+                        new Nota(messaggio,
+                                LocalDate.now(),
+                                idMittente,
+                                StatoNota.NON_LETTA,
+                                m,
+                                p);
+                notaDAO.save(nota);
+                return true;
+            }
+
+
+
 
             Medico m = (Medico) utenteService.findMedicoById(idDestinatario);
             Paziente p = (Paziente) utenteService.findPazienteById(idMittente);
@@ -123,27 +144,13 @@ public class GestioneComunicazioneServiceImpl implements GestioneComunicazioneSe
             Nota nota =
                     new Nota(messaggio,
                             LocalDate.now(),
-                            idMittente,
+                            idAutore,
                             StatoNota.NON_LETTA,
                             m,
                             p);
             notaDAO.save(nota);
-            return;
+            return true;
         }
-
-
-        Medico m = (Medico) utenteService.findMedicoById(idDestinatario);
-        Paziente p = (Paziente) utenteService.findPazienteById(idMittente);
-
-        Nota nota =
-                new Nota(messaggio,
-                        LocalDate.now(),
-                        idAutore,
-                        StatoNota.NON_LETTA,
-                        m,
-                        p);
-        notaDAO.save(nota);
-        return;
     }
 
     /**

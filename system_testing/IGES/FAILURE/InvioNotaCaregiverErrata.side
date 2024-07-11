@@ -1,0 +1,77 @@
+{
+  "id": "e7b8b293-b336-435d-be09-82418e808334",
+  "version": "2.0",
+  "name": "InvioNotaCaregiverErrata",
+  "url": "http://localhost:3000/HomeCaregiver",
+  "tests": [{
+    "id": "18510bbe-ecd9-4f82-b68d-7cb020f102f8",
+    "name": "SystemTesting_InvioNotaCaregiver_TestoVuoto",
+    "commands": [{
+      "id": "f5d68c7f-76d1-4b35-a5e9-3dbf06f2a4ae",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/HomeCaregiver",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "94ef7619-434d-45de-93c0-f4940f1bb03a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b1f728ab-1efa-498f-bc05-6957629af9ea",
+      "comment": "",
+      "command": "click",
+      "target": "css=.icona-aggiunta-nota > path:nth-child(1)",
+      "targets": [
+        ["css=.icona-aggiunta-nota > path:nth-child(1)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7f6217b-4351-405c-bc9b-7fdaa7f568c9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.bottoneInviaNota",
+      "targets": [
+        ["css=.bottoneInviaNota", "css:finder"],
+        ["xpath=//div[2]/div/div[2]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Invia nota')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "145ff4c6-53c6-41d2-8f37-b3908bed7802",
+      "comment": "",
+      "command": "click",
+      "target": "css=.selectPaziente",
+      "targets": [
+        ["css=.selectPaziente", "css:finder"],
+        ["xpath=//select", "xpath:position"],
+        ["xpath=//select[contains(.,'Giuseppe Giordano')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "07b4f631-88eb-4805-905f-92308a520565",
+      "comment": "",
+      "command": "click",
+      "target": "css=.bottoneInviaNota",
+      "targets": [
+        ["css=.bottoneInviaNota", "css:finder"],
+        ["xpath=//div[2]/div/div[2]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Invia nota')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "29910391-07f3-40a7-b114-ab32d01c2ce6",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3000/HomeCaregiver"],
+  "plugins": []
+}

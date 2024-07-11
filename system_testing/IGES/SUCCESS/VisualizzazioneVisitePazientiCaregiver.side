@@ -1,0 +1,133 @@
+{
+  "id": "9a43c2a9-6097-4164-9e59-a26a06aedd5e",
+  "version": "2.0",
+  "name": "VisualizzazioneVisitePazientiCaregiver",
+  "url": "http://localhost:3000/HomeCaregiver",
+  "tests": [{
+    "id": "dda8f483-3a68-4b38-9bbe-09e000719c3c",
+    "name": "SystemTesting_VisualizzazioniScheduleVisiteCaregiver",
+    "commands": [{
+      "id": "908c222c-4cdc-4255-b6fc-8ca2b69e6b76",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:3000/HomeCaregiver",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2083c87f-d932-4c8a-8aa6-c0f65ecea247",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e177beb6-aee7-456a-b38e-8ca047179e2b",
+      "comment": "",
+      "command": "click",
+      "target": "css=#\\32 > span",
+      "targets": [
+        ["css=#\\32 > span", "css:finder"],
+        ["xpath=//div[@id='2']/span", "xpath:idRelative"],
+        ["xpath=//a[2]/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Schedule')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "48509076-aa02-4947-8c36-3fe04f456a47",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(1) > div > .cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=div:nth-child(1) > div > .cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7020f976-1cc3-4414-8bc4-10f4eac1dd1d",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=div:nth-child(1) > div > .cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=div:nth-child(1) > div > .cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "614e3e49-1c1d-4fa0-b837-1f31ad4e273a",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=div:nth-child(1) > div > .cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=div:nth-child(1) > div > .cardPazienteHomeMedico:nth-child(1) .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Fascicolo Paziente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "17de90c4-058e-40c2-bb9c-37a49f703274",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(1) > .bloccoMisurazione > .contenitoreMisurazione:nth-child(1) > .contenitoreDati",
+      "targets": [
+        ["css=div:nth-child(1) > .bloccoMisurazione > .contenitoreMisurazione:nth-child(1) > .contenitoreDati", "css:finder"],
+        ["xpath=//div[2]/div/div[2]/div/div/div/div/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c192ca97-6790-4919-8c2a-fb2fdacfd15c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton > svg",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton > svg", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "313c2dcc-d3c5-4af6-86de-8de7717473db",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(3) > div > .cardPazienteHomeMedico .buttonVisualizzaFascicolo",
+      "targets": [
+        ["css=div:nth-child(3) > div > .cardPazienteHomeMedico .buttonVisualizzaFascicolo", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div[3]/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div/div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2fbc63a4-9498-4fa5-9380-638895290c21",
+      "comment": "",
+      "command": "click",
+      "target": "css=.contenitoreMisurazioni > div:nth-child(2) > h2",
+      "targets": [
+        ["css=.contenitoreMisurazioni > div:nth-child(2) > h2", "css:finder"],
+        ["xpath=//div[2]/div/div/div[2]/h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Enzimi cardiaci')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "028836a1-5956-42b6-bff1-32f168c5f001",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton > svg",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton > svg", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "356ad074-df56-4dd1-b173-57fa4d44031d",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3000/HomeCaregiver"],
+  "plugins": []
+}

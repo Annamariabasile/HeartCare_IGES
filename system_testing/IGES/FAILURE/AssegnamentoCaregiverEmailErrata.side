@@ -1,0 +1,155 @@
+{
+  "id": "ac1cbc7d-4343-4283-8a74-e6e8af410a77",
+  "version": "2.0",
+  "name": "AssegnamentoCaregiver",
+  "url": "http://localhost:3000",
+  "tests": [{
+    "id": "16bf002a-5093-4449-abd0-7bb10a87bdfe",
+    "name": "Untitled",
+    "commands": []
+  }, {
+    "id": "c799dadb-db49-4e21-8b25-1695639bb15b",
+    "name": "SystemTesting_AssegnamentoCaregiverEmailErrata",
+    "commands": [{
+      "id": "a8491a5e-d4e2-40f3-83e9-939dc29579c6",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "641023b5-0657-4587-8e01-54956e4791b8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1016x721",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ba1e6b7e-ee19-48bb-aa3e-bd231c195eff",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formEditText:nth-child(1)",
+      "targets": [
+        ["css=.formEditText:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2abb93d8-4f1b-4d10-b303-0bf2844d7486",
+      "comment": "",
+      "command": "type",
+      "target": "css=.formEditText:nth-child(1)",
+      "targets": [
+        ["css=.formEditText:nth-child(1)", "css:finder"],
+        ["xpath=//input[@type='text']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "giuseppegiordano@libero.it"
+    }, {
+      "id": "95dee73e-8508-4245-82e1-dbceae283617",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formEditText:nth-child(2)",
+      "targets": [
+        ["css=.formEditText:nth-child(2)", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5bde4304-ed5d-46f9-b8f6-ae0d3cd9c098",
+      "comment": "",
+      "command": "type",
+      "target": "css=.formEditText:nth-child(2)",
+      "targets": [
+        ["css=.formEditText:nth-child(2)", "css:finder"],
+        ["xpath=//input[@type='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "Wpasswd1!%"
+    }, {
+      "id": "c1c4ed20-0c14-4627-9836-b520d38fbc92",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formButton",
+      "targets": [
+        ["css=.formButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2d8046cf-1c66-4f12-a06a-6e7681811bc6",
+      "comment": "",
+      "command": "click",
+      "target": "css=#\\34 > span",
+      "targets": [
+        ["css=#\\34 > span", "css:finder"],
+        ["xpath=//div[@id='4']/span", "xpath:idRelative"],
+        ["xpath=//a[4]/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Profilo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ea79378f-3627-454a-87cc-28592c5b93de",
+      "comment": "",
+      "command": "click",
+      "target": "css=.contenitoreForm-infoCaregiver > .formEditText",
+      "targets": [
+        ["css=.contenitoreForm-infoCaregiver > .formEditText", "css:finder"],
+        ["xpath=(//input[@type='text'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div[2]/div[3]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4cab020c-f335-4077-91b1-326706318e77",
+      "comment": "",
+      "command": "type",
+      "target": "css=.contenitoreForm-infoCaregiver > .formEditText",
+      "targets": [
+        ["css=.contenitoreForm-infoCaregiver > .formEditText", "css:finder"],
+        ["xpath=(//input[@type='text'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div[2]/div[3]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/input", "xpath:position"]
+      ],
+      "value": "zoccolalibero.it"
+    }, {
+      "id": "3945982d-e2db-48d4-8fe4-8f76eee2d999",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formButton:nth-child(4)",
+      "targets": [
+        ["css=.formButton:nth-child(4)", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div[3]/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d50820a-7233-492a-9199-7ae0a97e73c0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-responsive-modal-closeButton path",
+      "targets": [
+        ["css=.react-responsive-modal-closeButton path", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "ee6a5299-5262-4a29-83bd-af8ca8ee6c58",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["16bf002a-5093-4449-abd0-7bb10a87bdfe"]
+  }],
+  "urls": ["http://localhost:3000/"],
+  "plugins": []
+}
