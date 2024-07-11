@@ -103,7 +103,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L12I234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
@@ -126,7 +126,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L12I234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "",
                 "Basile",
                 "F"
@@ -145,7 +145,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L12I234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "",
                 "F"
@@ -164,7 +164,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L12I234V",
                 "+3932425619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
@@ -183,7 +183,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L1234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
@@ -202,7 +202,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L1234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
@@ -223,7 +223,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L1234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
@@ -243,7 +243,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L1234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
@@ -263,7 +263,7 @@ public class GestioneRegistrazioneServiceIntegrationTest {
                 "VLSPCR01L1234V",
                 "+393242345619",
                 "Ciaone12345!",
-                "caregiver1@libero.it",
+                "caregiver2@libero.it",
                 "Annamaria",
                 "Basile",
                 "F"
